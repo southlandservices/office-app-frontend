@@ -5,8 +5,7 @@ import { render } from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 
 import { store } from './store'
-
-import App from './components/App'
+import App from './views/App';
 
 if (process.env.NODE_ENV === 'production') Offline.install()
 

@@ -11,12 +11,6 @@
     "test": "jest",
     "precommit": "lint-staged"
   },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write --no-semi --single-quote --trailing-comma all",
-      "git add"
-    ]
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/didierfranc/redux-react-starter.git"
@@ -26,12 +20,8 @@
     "redux",
     "async"
   ],
-  "author": "Didier Franc",
+  "author": "Jason Steele",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/didierfranc/redux-react-starter/issues"
-  },
-  "homepage": "https://github.com/didierfranc/redux-react-starter#readme",
   "devDependencies": {
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
@@ -42,6 +32,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "^6.23.0",
+    "dotenv-webpack": "^1.7.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-plugin-import": "^2.7.0",
@@ -59,54 +50,22 @@
     "webpack-dev-server": "^2.5.1"
   },
   "dependencies": {
+    "@material-ui/core": "^3.9.3",
+    "autobind-decorator": "^2.4.0",
+    "classnames": "^2.2.6",
     "emotion": "^7.3.2",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.11",
     "offline-plugin": "^4.8.3",
-    "react": "^16.0.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
     "react-code-splitting": "^1.1.1",
-    "react-dom": "^16.0.0",
-    "react-redux": "^5.0.5",
-    "react-router-dom": "^4.1.1",
-    "redux": "^3.7.1",
-    "redux-thunk": "^2.2.0"
-  },
-  "eslintConfig": {
-    "env": {
-      "browser": true,
-      "jest": true
-    },
-    "extends": "airbnb",
-    "parser": "babel-eslint",
-    "settings": {
-      "import/resolver": {
-        "webpack": {
-          "config": "webpack/webpack.config.dev.js"
-        }
-      }
-    },
-    "rules": {
-      "arrow-parens": [
-        "error",
-        "as-needed"
-      ],
-      "no-confusing-arrow": 0,
-      "no-shadow": 0,
-      "no-underscore-dangle": 0,
-      "semi": [
-        1,
-        "never"
-      ],
-      "import/no-extraneous-dependencies": 0,
-      "import/prefer-default-export": 0,
-      "import/no-duplicates": 0,
-      "react/jsx-filename-extension": [
-        1,
-        {
-          "extensions": [
-            ".js"
-          ]
-        }
-      ]
-    }
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.0.3",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "react-toastify": "^5.1.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^3.3.2"
   }
 }
