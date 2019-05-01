@@ -9,7 +9,7 @@ const Header = ({ classes }) => {
     <AppBar position='static' classes={{ colorPrimary: classes.colorPrimary }}>
       <Toolbar className={ classes.iconContainer }>
         <Typography variant="title" color="inherit">
-          <img src='../assets/images/logo.jpg' className={ classes.logo } />
+          <img src='../../../assets/images/logo.png' className={ classes.logo } />
         </Typography>
       </Toolbar>
     </AppBar>

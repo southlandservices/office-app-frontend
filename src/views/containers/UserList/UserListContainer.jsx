@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import withStyles from '@material-ui/core/styles/withStyles';
-import styles from './UserListStyles';
+// import withStyles from '@material-ui/core/styles/withStyles';
+// import styles from '../../components/UserList/UserListStyles';
 import { userOperations } from '../../../state/user';
+import View from '../../components/UserList';
 
 class UserList extends Component {
   componentDidMount() {
@@ -12,14 +13,13 @@ class UserList extends Component {
 
   render() {
     return(
-      <div></div>
+      <View { ...this.props } />
     )
   }
 
 }
 
 const mapStateToProps = ({ userState }) => {
-  debugger;
   return { users: userState.users };
 };
 
@@ -27,5 +27,6 @@ const mapDispatchToProps = {
   list: userOperations.list
 };
 
-const styledUserList = withStyles(styles)(UserList);
-export default connect(mapStateToProps, mapDispatchToProps)(styledUserList);
+// const styledUserList = withStyles(styles)(UserList);
+// export default connect(mapStateToProps, mapDispatchToProps)(styledUserList);
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

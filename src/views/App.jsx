@@ -7,11 +7,13 @@ import Dashbaord from './containers/Dashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import UserList from './containers/UserList';
+import Menu from './containers/Menu/MenuContainer';
 
 const root = Object.assign({}, baseStyles, {
   height: '100vh',
   flexGrow: 1,
   backgroundColor: '#F9FAFB',
+  margin: '-10px -10px 0px -10px'
 });
 
 const styles = theme => ({
@@ -31,6 +33,7 @@ class App extends Component {
     return (
       <div className={classes.root}>
         <Header />
+        <Menu />
         <div className={classes.pageContainer}>
           <Switch>
             <Route exact={true} path="/" render={() => <Dashbaord />} />
