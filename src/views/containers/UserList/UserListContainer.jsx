@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import withStyles from '@material-ui/core/styles/withStyles';
-// import styles from '../../components/UserList/UserListStyles';
 import { userOperations } from '../../../state/user';
 import View from '../../components/UserList';
 
 class UserList extends Component {
+
   componentDidMount() {
     this.props.list();
   }
 
+  goToDetail(data) {
+    debugger;
+    const foo = data;
+  }
+
+  options = {
+    onRowClick: rowData => this.goToDetail(rowData)
+  }
+
   render() {
     return(
-      <View { ...this.props } />
+      <View { ...this.props } tableOptions={ this.options } />
     )
   }
 
@@ -27,6 +34,4 @@ const mapDispatchToProps = {
   list: userOperations.list
 };
 
-// const styledUserList = withStyles(styles)(UserList);
-// export default connect(mapStateToProps, mapDispatchToProps)(styledUserList);
 export default connect(mapStateToProps, mapDispatchToProps)(UserList);
