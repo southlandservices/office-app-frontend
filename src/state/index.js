@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import userState from './user'
+import authenticationState from './auth';
 
 const rootReducer = combineReducers({
-  userState,
+  authenticationState,
+  userState
 })
 
 export default rootReducer

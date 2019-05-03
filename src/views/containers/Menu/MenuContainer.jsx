@@ -4,11 +4,20 @@ import { connect } from 'react-redux';
 import View from '../../components/Menu';
 
 class MenuContainer extends Component {
+  
+  constructor(props, context) {
+    super(props, context);
+  }
+
   render() {
     return (
-      <View />
+      <View { ...this.props } />
     )
   }
 }
 
-export default MenuContainer;
+const mapStateToProps = ({ authenticationState }) => {
+  return { authenticated: authenticationState.authenticated };
+}
+
+export default connect(mapStateToProps)(MenuContainer);

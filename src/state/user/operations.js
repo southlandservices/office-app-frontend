@@ -1,15 +1,16 @@
 import actions from './actions';
 import types from './types';
 
-let authorization = '';
-if(process.env.ENV === 'local') { authorization = process.env.TOKEN };
 const endpointBase = `${process.env.API_PREFIX}`;
-const headers = {
-  authorization
-};
+
+const getHeaders = () => {
+  const authorization = localStorage.getItem('token');
+  return { authorization }
+}
 
 const list = () => {
   const endpoint = `${endpointBase}users`;
+  const headers = getHeaders();
   return async (dispatch) => {
     try {
       let response = await fetch(endpoint, {
