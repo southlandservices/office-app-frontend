@@ -8,7 +8,7 @@ import extendStyles from '../../../assets/styles/buttons';
 
 const theme = createMuiTheme();
 
-const Menu = ({ classes, authenticated }) => {
+const Menu = ({ classes, authenticated, checkFn }) => {
   if(!!authenticated) {
     return (
       <div className={classes.wrapper}>
@@ -17,9 +17,12 @@ const Menu = ({ classes, authenticated }) => {
             <NavLink exact to="/dashboard" activeClassName={classes.activeLink} className={classes.buttonLink}>
               <Button className={classes.buttonLink}>Dashboard</Button>
             </NavLink>
-            <NavLink exact to="/users" activeClassName={classes.activeLink} className={classes.buttonLink}>
-              <Button className={classes.buttonLink}>Users</Button>
-            </NavLink>
+            {
+              checkFn('users') && 
+              <NavLink exact to="/users" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Users</Button>
+              </NavLink>
+            }
           </Grid>
         </div>
       </div>
@@ -30,10 +33,11 @@ const Menu = ({ classes, authenticated }) => {
   
 }
 
-const { object, bool } = PropTypes;
+const { object, bool, func } = PropTypes;
 Menu.propTypes = {
   classes: object.isRequired,
-  authenticated: PropTypes.oneOfType([ bool, object ])
+  authenticated: PropTypes.oneOfType([ bool, object ]),
+  checkFn: func.isRequired
 };
 
 const extendedStyles = extendStyles(theme, componentStyles);
