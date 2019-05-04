@@ -4,7 +4,7 @@ import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox 
 import { Face, Fingerprint } from '@material-ui/icons'
 import styles from './LoginStyles';
 
-const Login = ({ classes, handleChange, submitForm, email, password }) => {
+const Login = ({ classes, handleChange, submitForm, email, password, remember }) => {
   return (
     <Paper className={classes.paper}>
       <div className={classes.margin}>
@@ -44,9 +44,10 @@ const Login = ({ classes, handleChange, submitForm, email, password }) => {
         <Grid container alignItems="center" justify="space-between">
           <Grid item>
             <FormControlLabel control={
-              <Checkbox
-                  color="primary"
-              />
+              <Checkbox 
+                color="primary" 
+                checked={ remember } 
+                onChange={handleChange.bind(this, 'remember')} />
             } label="Remember me" />
           </Grid>
           <Grid item>

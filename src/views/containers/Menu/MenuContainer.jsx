@@ -11,7 +11,7 @@ class MenuContainer extends Component {
 
   render() {
     return (
-      <View { ...this.props } />
+      <View authenticated={ this.props.authenticated } />
     )
   }
 }

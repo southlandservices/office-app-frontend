@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   checkAuth() {
-    if(!isAuthenticated() && this.props.history.location.pathname !== '/') {
+    if(!this.isAuthenticated() && this.props.history.location.pathname !== '/') {
       if(this.localStorageHasCredentials()) {
         this.setAuthenticationFromLocalStorage();
       } else {
@@ -66,7 +66,7 @@ class App extends Component {
 
     return (
       <div className={classes.root}>
-        {this.checkAuth()}
+        { this.checkAuth() }
         <Header />
         <Menu />
         <div className={classes.pageContainer}>

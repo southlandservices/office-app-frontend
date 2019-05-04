@@ -8,8 +8,8 @@ import extendStyles from '../../../assets/styles/buttons';
 
 const theme = createMuiTheme();
 
-const Menu = ({ classes, props }) => {
-  if( !!props && !!props.authenticated) {
+const Menu = ({ classes, authenticated }) => {
+  if(!!authenticated) {
     return (
       <div className={classes.wrapper}>
         <div className={classes.menuBar}>
@@ -30,10 +30,10 @@ const Menu = ({ classes, props }) => {
   
 }
 
-const { object } = PropTypes;
+const { object, bool } = PropTypes;
 Menu.propTypes = {
   classes: object.isRequired,
-  props: object
+  authenticated: PropTypes.oneOfType([ bool, object ])
 };
 
 const extendedStyles = extendStyles(theme, componentStyles);

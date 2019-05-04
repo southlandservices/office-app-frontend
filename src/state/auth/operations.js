@@ -16,7 +16,7 @@ const logIn = ({ email, password }) => {
       });
       const result = await response.json();
       localStorage.setItem('token', result.data.token);
-      localStorage.setItem('userRole', result.data.user.userRole);
+      localStorage.setItem('userRoleName', JSON.stringify(result.data.user.userRole));
       dispatch({ type: types.AUTHENTICATION_SET, payload: result.data });
     } catch (e) {
       dispatch({ type: types.AUTHENTICATION_ERROR })

@@ -13,8 +13,18 @@ class LoginContainer extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      remember: false
     };
+  }
+
+  componentDidMount() {
+    if(localStorage.getItem('email')) {
+      this.setState({
+        'email': localStorage.getItem('email'),
+        'remember': true
+      });
+    }
   }
 
   @boundMethod
@@ -27,7 +37,12 @@ class LoginContainer extends Component {
   
   @boundMethod
   submitForm() {
-    let result = this.props.logIn({
+    if(this.state.remember) {
+      localStorage.setItem('email', this.state.email);
+    } else {
+      localStorage.removeItem('email');
+    }
+    this.props.logIn({
       email: this.state.email,
       password: this.state.password
     });
@@ -39,6 +54,7 @@ class LoginContainer extends Component {
       submitForm: this.submitForm,
       email: this.state.email,
       password: this.state.password,
+      remember: this.state.remember,
       history: this.props.history
     }; 
 
