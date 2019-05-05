@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { boundMethod } from 'autobind-decorator';
 import baseStyles from '../assets/styles/base';
 import Login from './containers/Login';
 import Dashboard from './containers/Dashboard';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import UserList from './containers/UserList';
+import User from './containers/User';
 import Menu from './containers/Menu/MenuContainer';
-import { authenticationActions } from '../state/auth';
+import { authenticationActions, authenticationOperations } from '../state/auth';
+import { decodeToken } from '../utils/misc';
 
 const root = Object.assign({}, baseStyles, {
   height: '100vh',
@@ -35,13 +38,15 @@ class App extends Component {
   }
 
   localStorageHasCredentials() {
-    return !!(localStorage.getItem('token') && localStorage.getItem('userRole'));
+    return !!localStorage.getItem('token');
   }
 
   setAuthenticationFromLocalStorage() {
+    const decoded = decodeToken(localStorage.getItem('token'));
+    const userRole = decoded.role;
     this.props.setAuthentication({
       token: localStorage.getItem('token'),
-      user: { userRole: localStorage.getItem('userRole') }
+      user: { userRole }
     })
   }
 
@@ -53,12 +58,11 @@ class App extends Component {
         this.props.history.push('/');
       }
     }
-    // if(
-    //   (!this.props.authenticated || !(localStorage.getItem('token') && localStorage.getItem('userRole') )) && 
-    //   this.props.history.location.pathname !== '/'
-    // ) {
-    //   this.props.history.push('/');
-    // }
+  }
+
+  @boundMethod
+  logOut() {
+    this.props.doLogOut();
   }
   
   render() {
@@ -67,13 +71,14 @@ class App extends Component {
     return (
       <div className={classes.root}>
         { this.checkAuth() }
-        <Header />
+        <Header isAuthenticated={!!this.props.authenticated} logOut={this.logOut} />
         <Menu />
         <div className={classes.pageContainer}>
           <Switch>
             <Route exact={true} path="/" render={() => <Login />} />
             <Route exact={true} path="/dashboard" render={() => <Dashboard />} />
             <Route exact={true} path="/users" render={() => <UserList />} />
+            <Route path="/users/:userId" render={({match}) => <User id={match.params.userId} /> } />
           </Switch>
         </div>
         <Footer />
@@ -92,7 +97,8 @@ const mapStateToProps = ({ authenticationState }) => {
 }
 
 const mapDispatchToProps = {
-  setAuthentication: authenticationActions.setAuthentication
+  setAuthentication: authenticationActions.setAuthentication,
+  doLogOut: authenticationOperations.logOut
 }
 
 const styledApp = withStyles(styles)(App);

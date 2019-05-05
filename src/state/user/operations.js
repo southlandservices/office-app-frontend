@@ -20,10 +20,27 @@ const list = () => {
       let users = await response.json();
       dispatch({ type: types.LIST, payload: users });
     } catch (e) {
-      dispatch({ type: types.ERROR })
+      dispatch({ type: types.ERROR, payload: e })
     }
   }
 };
+
+const getOne = (id) => {
+  const endpoint = `${endpointBase}users/${id}`;
+  const headers = getHeaders();
+  return async (dispatch) => {
+    try {
+      let response = await fetch(endpoint, {
+        method: 'GET',
+        headers
+      });
+      let user = await response.json();
+      dispatch({ type: types.SET_USER, payload: user });
+    } catch (e) {
+      dispatch({ type: types.ERROR, payload: e })
+    }
+  }
+}
 
 // client-only
 const editRefresh = data => {
@@ -36,6 +53,7 @@ const toggleSponsorStatus = id => {
 
 export default {
   list,
+  getOne,
   editRefresh,
   toggleSponsorStatus
 }

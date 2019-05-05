@@ -14,7 +14,7 @@ const columns = [
     options: {
       customBodyRender: 
         (value, tableMeta, updateValue) => 
-        ( <a className='textLink' href={ `users/${value.id}` }>{ value.name }</a> )
+        ( <Link to={`/users/${value.id}`} className='textLink'>{ value.name }</Link> )
     } 
   },
   { label: 'Last Name', name: 'lastName' },
@@ -39,7 +39,7 @@ const UserList = ({ classes, users, tableOptions }) => {
   return (
     <div>
       <h2>Users</h2>
-      <MUIDataTable data={ data(users) } columns={ columns } options={ tableOptions } />
+      <MUIDataTable data={ data(users) } columns={ columns } />
     </div>
   )
 }
@@ -48,7 +48,7 @@ const { object, array } = PropTypes;
 UserList.propTypes = {
   classes: object.isRequired,
   users: array.isRequired,
-  tableOptions: object.isRequired
+  // tableOptions: object.isRequired // for table options like onRowClick
 };
 
 export default withStyles(styles)(UserList);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { userOperations } from '../../../state/user';
 import View from '../../components/UserList';
 
@@ -9,18 +10,19 @@ class UserList extends Component {
     this.props.list();
   }
 
-  goToDetail(data) {
-    debugger;
-    const foo = data;
-  }
+  // For future reference
+  // goToDetail(data) {
+  //   const href = data[0].props.href;
+  //   this.props.history.push(`/${href}`);
+  // }
 
-  options = {
-    onRowClick: rowData => this.goToDetail(rowData)
-  }
+  // options = {
+  //   onRowClick: rowData => this.goToDetail(rowData)
+  // }
 
   render() {
     return(
-      <View { ...this.props } tableOptions={ this.options } />
+      <View { ...this.props } />
     )
   }
 
@@ -34,4 +36,4 @@ const mapDispatchToProps = {
   list: userOperations.list
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserList));

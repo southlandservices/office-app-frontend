@@ -44,7 +44,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
-      title: 'redux-react-starter',
+      title: 'Southland Office',
       template: 'webpack/template.html',
     }),
     new PreloadWebpackPlugin({

@@ -3,8 +3,8 @@ import types from './types';
 
 export const user = (state = {}, action) => {
   switch (action.type) {
-    case types.GET_USER:
-      return action.payload;
+    case types.SET_USER:
+      return action.payload.data;
     case types.EDIT_REFRESH:
       return action.payload;
     case types.TOGGLE_USER:

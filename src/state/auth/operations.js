@@ -16,7 +16,6 @@ const logIn = ({ email, password }) => {
       });
       const result = await response.json();
       localStorage.setItem('token', result.data.token);
-      localStorage.setItem('userRoleName', JSON.stringify(result.data.user.userRole));
       dispatch({ type: types.AUTHENTICATION_SET, payload: result.data });
     } catch (e) {
       dispatch({ type: types.AUTHENTICATION_ERROR })
@@ -26,6 +25,8 @@ const logIn = ({ email, password }) => {
 
 const logOut = () => {
   return (dispatch) => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
     dispatch({ type: types.AUTHENTICATION_UNSET });
   }
 }

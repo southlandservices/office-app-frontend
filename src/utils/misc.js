@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import * as jwt_decode from 'jwt-decode';
 
 function getNodeReference(sourceObject, property, delimiter) {
   const pathArray = _.split(property, delimiter);
@@ -62,4 +63,8 @@ export function convertFlatArrayToSelectOptions(flatArray) {
     options.push({ label: flatArray[i], value: flatArray[i] });
   }
   return options;
+}
+
+export function decodeToken(token) {
+  return jwt_decode(token);
 }

@@ -4,12 +4,20 @@ const styles = {
   },
   iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    margin: '0 auto',
     paddingTop: 10,
     paddingBottom: 10
   },
+  imgLink: {
+    cursor: 'pointer !important',
+    textDecoration: 'none'
+  },
   logo: {
     height: 80
+  },
+  logOut: {
+    justifyContent: 'right',
+    fontWeight: 600
   }
 };
 

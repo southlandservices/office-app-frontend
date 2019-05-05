@@ -46,7 +46,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      title: 'redux-react-starter',
+      title: 'Southland Office',
       template: '../webpack/template.html',
     })
   ],

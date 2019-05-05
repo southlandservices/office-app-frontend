@@ -1,4 +1,4 @@
-const GET_USER = 'GET_USER';
+const SET_USER = 'SET_USER';
 const ADD_USER = 'ADD_USER';
 const UPDATE_USER = 'ADD_USER';
 const PERSIST_SUCCESS = 'PERSIST_SUCCESS';
@@ -8,7 +8,7 @@ const TOGGLE_USER = 'TOGGLE_USER';
 const LIST = 'LIST_USERS';
 
 export default {
-  GET_USER,
+  SET_USER,
   ADD_USER,
   UPDATE_USER,
   PERSIST_SUCCESS,
