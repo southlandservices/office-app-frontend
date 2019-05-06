@@ -17,7 +17,7 @@ const Header = ({ classes, isAuthenticated, logOut }) => {
         {
           isAuthenticated &&
           <div className={classes.logOut} onClick={logOut}>
-            <Button color="primary">Log Out</Button>
+            <Button variant="contained" >Log Out</Button>
           </div>
         }
       </Toolbar>

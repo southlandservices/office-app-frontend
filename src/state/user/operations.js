@@ -42,18 +42,51 @@ const getOne = (id) => {
   }
 }
 
+const addUser = (data) => {
+  const endpoint = `${endpointBase}users/`;
+  const headers = getHeaders();
+  return async (dispatch) => {
+    try {
+      let response = await fetch(endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data)
+      });
+      let result = await response.json();
+      dispatch({ type: types.PERSIST_SUCCESS, payload: result });
+    } catch (e) {
+      dispatch({ type: types.PERSIST_ERROR, payload: e });
+    }
+  }
+}
+
+const updateUser = (id, data) => {
+  const endpoint = `${endpointBase}users/${id}`;
+  const headers = getHeaders();
+  return async (dispatch) => {
+    try {
+      let response = await fetch(endpoint, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data)
+      });
+      let result = await response.json();
+      dispatch({ type: types.PERSIST_SUCCESS, payload: result });
+    } catch (e) {
+      dispatch({ type: types.PERSIST_ERROR, payload: e });
+    }
+  }
+}
+
 // client-only
 const editRefresh = data => {
   return dispatch => dispatch(actions.editRefresh(data));
 };
 
-const toggleSponsorStatus = id => {
-  return actions.toggleSponsorStatus(id);
-};
-
 export default {
+  addUser,
+  updateUser,
   list,
-  getOne,
-  editRefresh,
-  toggleSponsorStatus
+  get: getOne,
+  editRefresh
 }

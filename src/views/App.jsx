@@ -16,10 +16,8 @@ import { authenticationActions, authenticationOperations } from '../state/auth';
 import { decodeToken } from '../utils/misc';
 
 const root = Object.assign({}, baseStyles, {
-  height: '100vh',
-  flexGrow: 1,
   backgroundColor: '#F9FAFB',
-  margin: '-10px -10px 0px -10px'
+  margin: '-10px -7px 0px -7px'
 });
 
 const styles = theme => ({
@@ -28,6 +26,10 @@ const styles = theme => ({
     maxWidth: 1200,
     paddingTop: 30,
     margin: '0 auto'
+  },
+  contentArea: {
+    paddingBottom: 75,
+    minHeight: '90vh'
   }
 });
 
@@ -71,15 +73,17 @@ class App extends Component {
     return (
       <div className={classes.root}>
         { this.checkAuth() }
-        <Header isAuthenticated={!!this.props.authenticated} logOut={this.logOut} />
-        <Menu />
-        <div className={classes.pageContainer}>
-          <Switch>
-            <Route exact={true} path="/" render={() => <Login />} />
-            <Route exact={true} path="/dashboard" render={() => <Dashboard />} />
-            <Route exact={true} path="/users" render={() => <UserList />} />
-            <Route path="/users/:userId" render={({match}) => <User id={match.params.userId} /> } />
-          </Switch>
+          <div className={ classes.contentArea }>
+          <Header isAuthenticated={!!this.props.authenticated} logOut={this.logOut} />
+          <Menu />
+          <div className={classes.pageContainer}>
+            <Switch>
+              <Route exact={true} path="/" render={() => <Login />} />
+              <Route exact={true} path="/dashboard" render={() => <Dashboard />} />
+              <Route exact={true} path="/users" render={() => <UserList />} />
+              <Route path="/users/:userId" render={({match}) => <User id={match.params.userId} /> } />
+            </Switch>
+          </div>
         </div>
         <Footer />
       </div>

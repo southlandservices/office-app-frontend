@@ -11,7 +11,7 @@ const renderChildren = (props) => {
 };
 
 const FormWrapper = (props) => {
-  const { classes, onPersist, isNew, saveInProgress, name, otherProps } = props;
+  const { onPersist, isNew, saveInProgress, name, otherProps } = props;
 
   return (
     <div className={classnames('form-container')} {...otherProps}>
@@ -21,6 +21,8 @@ const FormWrapper = (props) => {
           <Grid item md={12} />
           <Grid item md={1}>
             <Button
+              variant="contained"
+              color="primary"
               onClick={onPersist}
               disabled={saveInProgress}
               name={isNew ? 'create' : 'update'}>
@@ -39,7 +41,7 @@ FormWrapper.propTypes = {
   item: object,
   isNew: bool.isRequired,
   saveInProgress: bool.isRequired,
-  classes: object.isRequired,
+  // classes: object.isRequired,
   onChange: func.isRequired,
   onPersist: func.isRequired,
   otherProps: object,

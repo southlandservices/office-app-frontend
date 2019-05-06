@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import uuidv1 from 'uuid/v1';
 
-import { setFieldValue } from '../../utils/misc';
+import { setFieldValue } from '../../../utils/misc';
 
 class CreateEditComponent extends Component {
   constructor(props, context, idField) {
