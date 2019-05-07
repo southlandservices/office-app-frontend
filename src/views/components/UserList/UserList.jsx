@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './UserListStyles';
 import { Link } from 'react-router-dom';
+import { Add } from '@material-ui/icons';
 import MUIDataTable from 'mui-datatables';
+import ButtonLink from '../../common/ButtonLink';
+import PageHeader from '../../common/PageHeader';
 import _ from 'lodash';
 import '../../../assets/styles/table.css';
 
@@ -35,10 +38,12 @@ const data = (users) => {
   });
 }
 
+const pageOptions = () => <ButtonLink location = "/users/create" text = "Add New User" type="primary"><Add /></ButtonLink >
+
 const UserList = ({ classes, users, tableOptions }) => {
   return (
     <div>
-      <h2>Users</h2>
+      <PageHeader pageOptions={ pageOptions } pageTitle="Users" />
       <MUIDataTable data={ data(users) } columns={ columns } />
     </div>
   )

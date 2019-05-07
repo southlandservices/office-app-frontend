@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { boundMethod } from 'autobind-decorator';
+import { ToastContainer, toast } from 'react-toastify';
 import baseStyles from '../assets/styles/base';
 import Login from './containers/Login';
 import Dashboard from './containers/Dashboard';
@@ -14,10 +15,12 @@ import User from './containers/User';
 import Menu from './containers/Menu/MenuContainer';
 import { authenticationActions, authenticationOperations } from '../state/auth';
 import { decodeToken } from '../utils/misc';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = Object.assign({}, baseStyles, {
   backgroundColor: '#F9FAFB',
-  margin: '-10px -7px 0px -7px'
+  margin: '-10px -7px 0px -7px',
+  fontFamily: 'Roboto, sans-Serif'
 });
 
 const styles = theme => ({
@@ -28,8 +31,17 @@ const styles = theme => ({
     margin: '0 auto'
   },
   contentArea: {
-    paddingBottom: 75,
     minHeight: '90vh'
+  },
+  toastMessage: {
+    width: '300px',
+    padding: '15px 20px',
+    // TODO: seems to match offset of padding
+    top: '-10px',
+    right: '40px',
+    border: '1px solid rgba(0, 0, 0, .1)',
+    borderRadius: '.215rem',
+    opacity: 0.95
   }
 });
 
@@ -86,6 +98,13 @@ class App extends Component {
           </div>
         </div>
         <Footer />
+        <ToastContainer
+          position="top-left"
+          autoClose={5000}
+          hideProgressBar={true}
+          closeButton={false}
+          pauseOnHover
+          closeOnClick />
       </div>
     )
   }

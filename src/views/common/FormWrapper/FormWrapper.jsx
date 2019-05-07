@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import classnames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import styles from './FormWrapperStyles'
 
 const renderChildren = (props) => {
   return React.Children.map(props.children, child => {
@@ -11,10 +12,10 @@ const renderChildren = (props) => {
 };
 
 const FormWrapper = (props) => {
-  const { onPersist, isNew, saveInProgress, name, otherProps } = props;
+  const { onPersist, isNew, saveInProgress, name, otherProps, classes } = props;
 
   return (
-    <div className={classnames('form-container')} {...otherProps}>
+    <div className={ classes.formContainer } {...otherProps}>
       <Grid name={name} container spacing={24} role="form">
         {renderChildren(props)}
         <Grid container spacing={24}>
@@ -41,11 +42,11 @@ FormWrapper.propTypes = {
   item: object,
   isNew: bool.isRequired,
   saveInProgress: bool.isRequired,
-  // classes: object.isRequired,
   onChange: func.isRequired,
   onPersist: func.isRequired,
   otherProps: object,
-  name: string
+  name: string,
+  role: string.isRequired
 };
 
-export default FormWrapper;
+export default withStyles(styles)(FormWrapper);

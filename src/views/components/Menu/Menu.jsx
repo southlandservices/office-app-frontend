@@ -19,7 +19,7 @@ const Menu = ({ classes, authenticated, checkFn }) => {
             </NavLink>
             {
               checkFn('users') && 
-              <NavLink exact to="/users" activeClassName={classes.activeLink} className={classes.buttonLink}>
+              <NavLink to="/users" activeClassName={classes.activeLink} className={classes.buttonLink}>
                 <Button className={classes.buttonLink}>Users</Button>
               </NavLink>
             }

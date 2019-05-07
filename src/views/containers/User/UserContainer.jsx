@@ -8,6 +8,7 @@ import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
 import View from '../../common/FormWrapper';
 import Form from '../../components/User';
+import { decodeToken } from '../../../utils/misc';
 
 class User extends CreateEditComponent {
 
@@ -37,21 +38,24 @@ class User extends CreateEditComponent {
   render() {
     const { isNew, redirectToList, isSaving } = this.state;
     const { user } = this.props;
+    const decoded = decodeToken(localStorage.getItem('token'));
+    const { role } = decoded;
     return (
       <div>
-        <PageHeader title={ isNew ? 'Add User' : 'Update User' } />
+        <PageHeader pageTitle={ isNew ? 'Add User' : 'Update User' } />
         {
           redirectToList ?
           <Redirect to="/users" /> :
-            <View
-              onChange={this.handleChange}
-              onPersist={this.handlePersist}
-              isNew={isNew}
-              saveInProgress={isSaving}
-              item={user}
-              {...this.props}>
-              <Form />
-            </View>
+          <View
+            onChange={this.handleChange}
+            onPersist={this.handlePersist}
+            isNew={isNew}
+            saveInProgress={isSaving}
+            item={user}
+            role={ role }
+            {...this.props}>
+            <Form />
+          </View>
         }
       </div>
     )

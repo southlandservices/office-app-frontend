@@ -32,7 +32,7 @@ class CreateEditComponent extends Component {
     this.state = Object.assign({}, this.state, {
       id: this.props[this.idField] || undefined,
       isSaving: false,
-      isNew: !this.props[this.idField],
+      isNew: !this.props[this.idField] || this.props[this.idField] === "create",
       redirectToList: false
     });
   }
@@ -66,19 +66,19 @@ class CreateEditComponent extends Component {
     // these add/update functions can probably be abstracted out to the CreateEditComponent as props
     if (isNew) {
       addFn(item)
-        .then(() => this.notify({ message: `Add successful: ${name}`, type: 'success' }))
+        .then(() => this.notify({ message: `Add successful`, type: 'success' }))
         .then(() => this.updateState(false, true))
         .catch(() => {
-          this.notify({ message: `Add error: ${name}`, type: 'error', autoClose: false });
+          this.notify({ message: `Add error`, type: 'error', autoClose: false });
           this.updateState(true, true);
         });
     } else {
       // TODO: show a notification
       updateFn(id, item)
-        .then(() => this.notify({ message: `Save successful: ${name}`, type: 'success' }))
+        .then(() => this.notify({ message: `Save successful`, type: 'success' }))
         .then(() => this.updateState())
         .catch(() => {
-          this.notify({ message: `Save error: ${name}`, type: 'error', autoClose: false });
+          this.notify({ message: `Save error`, type: 'error', autoClose: false });
           this.updateState(true);
         });
     }
