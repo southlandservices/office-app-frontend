@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import uuidv1 from 'uuid/v1';
+import uuidv4 from 'uuid/v4';
 
 import { setFieldValue } from '../../../utils/misc';
 
@@ -18,11 +18,11 @@ class CreateEditComponent extends Component {
   getItem() {
     const { id } = this.state;
 
-    if (id) {
+    if (id && id !== 'create') {
       return this.props.get(id);
     }
 
-    this.props.editRefresh({ [this.idField]: uuidv1() });
+    this.props.editRefresh({ [this.idField]: uuidv4() });
 
     return Promise.resolve();
   }

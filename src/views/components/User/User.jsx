@@ -1,10 +1,28 @@
 import React from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, TextField } from '@material-ui/core'
-import styles from './UserStyles';
+import { Grid, TextField } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-const User = ({ classes, user, onChange, role }) => {
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
+
+const User = ({ classes, user, onChange, role, isNew, roles }) => {
   return (
     <Grid className="user-form" container spacing={24}>
       <Grid item xs={12} md={3} >
@@ -37,7 +55,26 @@ const User = ({ classes, user, onChange, role }) => {
           onChange={onChange.bind(this, 'title')}
           fullWidth={true} />
       </Grid>
-      <Grid item md={3} />
+      {
+        !_.isEmpty(roles) &&
+          <Grid item xs={12} md={3} >
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="role">Role</InputLabel>
+              <Select
+                value={user.roleId || ''}
+                onChange={onChange.bind(this, 'roleId')}
+                inputProps={{
+                  name: 'roleId',
+                  id: 'role',
+                }}
+              >
+              {
+                roles.map(role => <MenuItem key={role.id} value={role.id}>{role.name}</MenuItem>)
+              }
+              </Select>
+            </FormControl>
+          </Grid>
+      }
       <Grid item xs={12} md={3} >
         <TextField
           label="Phone"
@@ -96,16 +133,34 @@ const User = ({ classes, user, onChange, role }) => {
           </Grid> :
           <Grid item xs={12} md={6} />
       }
+      {
+        (role === 'Admin' && isNew) &&
+        <React.Fragment>
+          <Grid item xs={12} md={3} >
+            <TextField
+              label="Password"
+              placeholder="Password"
+              field="password"
+              name="password"
+              value={user.password || ''}
+              onChange={onChange.bind(this, 'password')}
+              fullWidth={true} />
+          </Grid>
+          <Grid item xs={12} md={9} />
+        </React.Fragment>
+      }
     </Grid>
   )
 }
 
-const { object, func, string } = PropTypes;
+const { object, func, string, bool, array } = PropTypes;
 User.propTypes = {
   classes: object.isRequired,
   user: object,
   onChange: func,
-  role: string.isRequired
+  role: string.isRequired,
+  isNew: bool.isRequired,
+  roles: array.isRequired
 };
 
 export default withStyles(styles)(User);

@@ -25,7 +25,7 @@ const columns = [
   { label: 'Phone', name: 'phone1' },
   { label: 'Phone (alt)', name: 'phone2' },
   { label: 'Email', name: 'email' },
-  { label: 'Role', name: 'userRole.name'}
+  { label: 'Role', name: 'Role.name'}
 ];
 
 const data = (users) => {

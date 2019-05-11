@@ -1,14 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { any } from 'prop-types';
 import { connect } from 'react-redux';
 import { boundMethod } from 'autobind-decorator';
 import { Redirect } from 'react-router-dom';
 import { userOperations } from '../../../state/user';
+import { roleOperations } from '../../../state/role';
 import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
 import View from '../../common/FormWrapper';
 import Form from '../../components/User';
-import { decodeToken } from '../../../utils/misc';
+import { decodeToken, removeValueFromNestedArray } from '../../../utils/misc';
 
 class User extends CreateEditComponent {
 
@@ -19,10 +20,12 @@ class User extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
+    this.props.listRoles();
   }
 
   @boundMethod
   handleChange(name, event) {
+    debugger;
     this.change(name, event.target.value, this.props.user);
   }
 
@@ -37,7 +40,7 @@ class User extends CreateEditComponent {
 
   render() {
     const { isNew, redirectToList, isSaving } = this.state;
-    const { user } = this.props;
+    const { user, roles } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
     return (
@@ -53,6 +56,7 @@ class User extends CreateEditComponent {
             saveInProgress={isSaving}
             item={user}
             role={ role }
+            roles={ roles }
             {...this.props}>
             <Form />
           </View>
@@ -69,16 +73,21 @@ User.propTypes = {
   addUser: func.isRequired,
   updateUser: func.isRequired,
   editRefresh: func.isRequired,
+  listRoles: any,
   id: string,
   user: object,
 };
 
-const mapStateToProps = ({ userState }) => {
-  return { user: userState.user };
+const mapStateToProps = ({ userState, roleState }) => {
+  return { 
+    user: userState.user,
+    roles: roleState.roles
+  };
 };
 
 const { get, editRefresh, addUser, updateUser } = userOperations;
+const { list: listRoles } = roleOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser };
+const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

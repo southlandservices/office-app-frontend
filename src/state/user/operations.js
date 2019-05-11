@@ -43,7 +43,7 @@ const getOne = (id) => {
 }
 
 const addUser = (data) => {
-  const endpoint = `${endpointBase}users/`;
+  const endpoint = `${endpointBase}users`;
   const headers = getHeaders();
   return async (dispatch) => {
     try {
