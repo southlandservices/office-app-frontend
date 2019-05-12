@@ -3,15 +3,14 @@ import PropTypes, { any } from 'prop-types';
 import { connect } from 'react-redux';
 import { boundMethod } from 'autobind-decorator';
 import { Redirect } from 'react-router-dom';
-import { userOperations } from '../../../state/user';
-import { roleOperations } from '../../../state/role';
+import { clientContactOperations } from '../../../state/clientContact';
 import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
 import View from '../../common/FormWrapper';
-import Form from '../../components/User';
+import Form from '../../components/ClientContact';
 import { decodeToken, removeValueFromNestedArray } from '../../../utils/misc';
 
-class User extends CreateEditComponent {
+class ClientContact extends CreateEditComponent {
 
   constructor(props, context) {
     super(props, context, 'id');
@@ -20,42 +19,40 @@ class User extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
-    this.props.listRoles();
   }
 
   @boundMethod
   handleChange(name, event) {
-    this.change(name, event.target.value, this.props.user);
+    this.change(name, event.target.value, this.props.clientContact);
   }
 
   @boundMethod
   handlePersist() {
     this.persist({
-      item: this.props.user,
-      addFn: this.props.addUser,
-      updateFn: this.props.updateUser
+      item: this.props.clientContact,
+      addFn: this.props.addClientContact,
+      updateFn: this.props.updateClientContact
     });
   }
 
   render() {
     const { isNew, redirectToList, isSaving } = this.state;
-    const { user, roles } = this.props;
+    const { clientContact } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
     return (
       <div>
-        <PageHeader pageTitle={ isNew ? 'Add User' : 'Update User' } />
+        <PageHeader pageTitle={ isNew ? 'Add Client Contact' : 'Update Client Contact' } />
         {
           redirectToList ?
-          <Redirect to="/users" /> :
+          <Redirect to="/clientContacts" /> :
           <View
             onChange={this.handleChange}
             onPersist={this.handlePersist}
             isNew={isNew}
             saveInProgress={isSaving}
-            item={user}
+            item={clientContact}
             role={ role }
-            roles={ roles }
             {...this.props}>
             <Form />
           </View>
@@ -67,26 +64,23 @@ class User extends CreateEditComponent {
 
 const { func, string, object } = PropTypes;
 
-User.propTypes = {
+ClientContact.propTypes = {
   get: func.isRequired,
-  addUser: func.isRequired,
-  updateUser: func.isRequired,
+  addClientContact: func.isRequired,
+  updateClientContact: func.isRequired,
   editRefresh: func.isRequired,
-  listRoles: any,
   id: string,
-  user: object,
+  clientContact: object,
 };
 
-const mapStateToProps = ({ userState, roleState }) => {
+const mapStateToProps = ({ clientContactState }) => {
   return { 
-    user: userState.user,
-    roles: roleState.roles
+    clientContact: clientContactState.clientContact
   };
 };
 
-const { get, editRefresh, addUser, updateUser } = userOperations;
-const { list: listRoles } = roleOperations;
+const { get, editRefresh, addClientContact, updateClientContact } = clientContactOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles };
+const mapDispatchToProps = { get, editRefresh, addClientContact, updateClientContact };
 
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default connect(mapStateToProps, mapDispatchToProps)(ClientContact);

@@ -23,6 +23,24 @@ const Menu = ({ classes, authenticated, checkFn }) => {
                 <Button className={classes.buttonLink}>Users</Button>
               </NavLink>
             }
+            {
+              checkFn('clients') &&
+              <NavLink to="/clients" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Clients</Button>
+              </NavLink>
+            }
+            {
+              checkFn('clientContacts') &&
+              <NavLink to="/clientContacts" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Client Contacts</Button>
+              </NavLink>
+            }
+            {
+              checkFn('jobs') &&
+              <NavLink to="/jobs" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Jobs</Button>
+              </NavLink>
+            }
           </Grid>
         </div>
       </div>

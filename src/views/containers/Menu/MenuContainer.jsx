@@ -3,14 +3,16 @@ import { boundMethod } from 'autobind-decorator';
 import { connect } from 'react-redux';
 import View from '../../components/Menu';
 import { decodeToken } from '../../../utils/misc';
-// import * as jwt_decode from 'jwt-decode';
 
 class MenuContainer extends Component {
   
   constructor(props, context) {
     super(props, context);
     this.state = {
-      users: ['Admin']
+      users: ['Admin'],
+      clients: ['Admin', 'Manager', 'Customer Serice'],
+      clientContacts: ['Admin', 'Manager', 'Customer Serice', 'Tech'],
+      jobs: ['Admin', 'Manager', 'Customer Serice'],
     }
   }
 
