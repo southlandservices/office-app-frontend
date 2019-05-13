@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './ClientListStyles';
 import { Link } from 'react-router-dom';
 import { Add } from '@material-ui/icons';
+import { Grid } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import ButtonLink from '../../common/ButtonLink';
 import PageHeader from '../../common/PageHeader';
@@ -36,10 +37,10 @@ const pageOptions = () => <ButtonLink location="/clients/create" text="Add New C
 
 const ClientList = ({ classes, clients }) => {
   return (
-    <div>
+    <Grid className="client-contact-list" container spacing={24}>
       <PageHeader pageOptions={pageOptions} pageTitle="Clients" />
-      <MUIDataTable data={data(clients)} columns={columns} />
-    </div>
+      <MUIDataTable data={data(clients)} columns={columns} className={ classes.fullWidth } />
+    </Grid>
   )
 }
 const { object, array } = PropTypes;
