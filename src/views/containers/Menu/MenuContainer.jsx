@@ -13,6 +13,7 @@ class MenuContainer extends Component {
       clients: ['Admin', 'Manager', 'Customer Serice'],
       clientContacts: ['Admin', 'Manager', 'Customer Serice', 'Tech'],
       jobs: ['Admin', 'Manager', 'Customer Serice'],
+      shippers: ['Admin', 'Manager', 'Customer Serice']
     }
   }
 

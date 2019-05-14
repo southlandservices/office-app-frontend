@@ -41,6 +41,12 @@ const Menu = ({ classes, authenticated, checkFn }) => {
                 <Button className={classes.buttonLink}>Jobs</Button>
               </NavLink>
             }
+            {
+              checkFn('shippers') &&
+              <NavLink to="/shippers" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Shippers</Button>
+              </NavLink>
+            }
           </Grid>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { boundMethod } from 'autobind-decorator';
 import { Redirect } from 'react-router-dom';
 import { clientContactOperations } from '../../../state/clientContact';
+import { clientOperations } from '../../../state/client';
 import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
 import View from '../../common/FormWrapper';
@@ -19,6 +20,7 @@ class ClientContact extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
+    this.props.listClients()
   }
 
   @boundMethod
@@ -37,7 +39,7 @@ class ClientContact extends CreateEditComponent {
 
   render() {
     const { isNew, redirectToList, isSaving } = this.state;
-    const { clientContact } = this.props;
+    const { clientContact, clients } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
     return (
@@ -73,14 +75,16 @@ ClientContact.propTypes = {
   clientContact: object,
 };
 
-const mapStateToProps = ({ clientContactState }) => {
+const mapStateToProps = ({ clientContactState, clientState }) => {
   return { 
-    clientContact: clientContactState.clientContact
+    clientContact: clientContactState.clientContact,
+    clients: clientState.clients
   };
 };
 
 const { get, editRefresh, addClientContact, updateClientContact } = clientContactOperations;
+const { list: listClients } = clientOperations;
 
-const mapDispatchToProps = { get, editRefresh, addClientContact, updateClientContact };
+const mapDispatchToProps = { get, editRefresh, addClientContact, updateClientContact, listClients };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientContact);

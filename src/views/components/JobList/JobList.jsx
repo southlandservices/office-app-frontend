@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import styles from './JobListStyles';
 import { Link } from 'react-router-dom';
 import { Add } from '@material-ui/icons';
@@ -11,6 +11,25 @@ import PageHeader from '../../common/PageHeader';
 import _ from 'lodash';
 import { format } from 'date-fns';
 import '../../../assets/styles/table.css';
+
+// const getMuiTheme = () => createMuiTheme({
+//   overrides: {
+//     MUIDataTableHeadCell: {
+//       root: {
+//         '&:nth-child(2)': {
+//           width: 20
+//         }
+//       }
+//     },
+//     MUIDataTableSelectCell: {
+//       root: {
+//         '&:nth-child(2)': {
+//           width: 20
+//         }
+//       }
+//     }
+//   }
+// });
 
 const columns = [
   {
@@ -80,7 +99,9 @@ const JobList = ({ classes, jobs }) => {
   return (
     <Grid className="job-list" container spacing={24}>
       <PageHeader pageOptions={pageOptions} pageTitle="Jobs" />
-      <MUIDataTable data={data(jobs)} columns={columns} className={ classes.fullWidth } />
+      {/* <MuiThemeProvider theme={getMuiTheme()}> */}
+        <MUIDataTable data={data(jobs)} columns={columns} className={ classes.fullWidth } />
+      {/* </MuiThemeProvider> */}
     </Grid>
   )
 }

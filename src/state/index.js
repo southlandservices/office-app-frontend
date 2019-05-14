@@ -4,7 +4,8 @@ import authenticationState from './auth';
 import roleState from './role';
 import clientState from './client';
 import clientContactState from './clientContact';
-import jobState from './job'
+import jobState from './job';
+import shipperState from './shipper';
 
 const rootReducer = combineReducers({
   authenticationState,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   roleState,
   clientState,
   clientContactState,
-  jobState
+  jobState,
+  shipperState
 })
 
 export default rootReducer
