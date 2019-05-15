@@ -17,6 +17,7 @@ import Client from './containers/Client';
 import ClientContactList from './containers/ClientContactList';
 import ClientContact from './containers/ClientContact';
 import JobList from './containers/JobList';
+import Job from './containers/Job';
 import ShipperList from './containers/ShipperList';
 import Shipper from './containers/Shipper';
 import Menu from './containers/Menu/MenuContainer';
@@ -106,6 +107,7 @@ class App extends Component {
               <Route exact={true} path="/clientContacts" render={() => <ClientContactList />} />
               <Route path="/clientContacts/:clientContactId" render={({match}) => <ClientContact id={ match.params.clientContactId } />} />
               <Route exact={true} path="/jobs" render={() => <JobList />} />
+              <Route path="/jobs/:jobId" render={({match}) => <Job id={ match.params.jobId } />} />
               <Route exact={true} path="/shippers" render={() => <ShipperList />} />
               <Route path="/shippers/:shipperId" render={({match}) => <Shipper id={ match.params.shipperId } />} />
             </Switch>
