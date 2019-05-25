@@ -20,6 +20,7 @@ class User extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
+    this.props.listNotes(this.props.id);
     this.props.listRoles();
   }
 
@@ -39,7 +40,7 @@ class User extends CreateEditComponent {
 
   render() {
     const { isNew, redirectToList, isSaving } = this.state;
-    const { user, roles } = this.props;
+    const { user, roles, notes, adminNotes } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
     return (
@@ -56,6 +57,8 @@ class User extends CreateEditComponent {
             item={user}
             role={ role }
             roles={ roles }
+            notes={ notes }
+            adminNotes={ adminNotes }
             {...this.props}>
             <Form />
           </View>
@@ -80,13 +83,15 @@ User.propTypes = {
 const mapStateToProps = ({ userState, roleState }) => {
   return { 
     user: userState.user,
+    notes: userState.notes,
+    adminNotes: userState.adminNotes,
     roles: roleState.roles
   };
 };
 
-const { get, editRefresh, addUser, updateUser } = userOperations;
+const { get, editRefresh, addUser, updateUser, listNotes } = userOperations;
 const { list: listRoles } = roleOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles };
+const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

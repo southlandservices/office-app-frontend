@@ -20,6 +20,24 @@ export const user = (state = {}, action) => {
   }
 };
 
+export const notes = (state = [], action) => {
+  switch(action.type) {
+    case types.LIST_NOTES:
+      return action.payload.data.filter(note => note.isAdmin == false);
+    default: 
+      return state;
+  }
+}
+
+export const adminNotes = (state = [], action) => {
+  switch(action.type) {
+    case types.LIST_NOTES:
+      return action.payload.data.filter(note => note.isAdmin == true);
+    default:
+      return state;
+  }
+}
+
 export const users = (state = [], action) => {
   switch (action.type) {
     case types.LIST:
@@ -45,7 +63,9 @@ export const saveSuccess = (state = null, action) => {
 const userReducer = combineReducers({
   user,
   users,
-  saveSuccess
+  saveSuccess,
+  notes,
+  adminNotes
 });
 
 export default userReducer;
