@@ -4,13 +4,16 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { Add } from '@material-ui/icons';
+import TableHeader from '../../common/TableHeader';
+import Dialog from '../Dialog';
 
 const styles = theme => ({
   root: {
@@ -22,14 +25,18 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
-  },
-  subHeader: {
-    fontSize: 24,
-    fontWeight: 500
   }
 });
 
 const noteColumns = [
+  {
+    label: '',
+    name: 'editLink',
+    options: {
+      customBodyRender: (value, tableMeta, updateValue) => 
+        (<Button color='primary' onClick={ () => value.clickHandler(value.note) }>Edit</Button>)
+    }
+  },
   { label: 'Note', name: 'note' },
   {
     label: 'Submitter',
@@ -44,15 +51,16 @@ const noteColumns = [
   { label: 'Updated', name: 'updatedOn' }
 ]
 
-const formatNotes = (notes) => {
+const formatNotes = (notes, formatNoteDialog) => {
   return _.map(notes, note => {
     const submitterLink = {
       id: note.submitterId,
       name: `${note.submitter.lastName}, ${note.submitter.firstName}`
     };
+    const editLink = { note, clickHandler: formatNoteDialog };
     const createdOn = format(note.createdAt, 'MM/DD/YYYY HH:mm:ss');
     const updatedOn = format(note.updatedAt, 'MM/DD/YYYY HH:mm:ss');
-    return Object.assign(note, { submitterLink, createdOn, updatedOn });
+    return Object.assign(note, { submitterLink, editLink, createdOn, updatedOn });
   });
 }
 
@@ -83,7 +91,22 @@ const formatAdminNotes = (notes) => {
   });
 }
 
-const User = ({ classes, user, onChange, role, isNew, roles, notes, adminNotes }) => {
+const User = ({ 
+  classes, 
+  user, 
+  onChange, 
+  role, 
+  isNew, 
+  roles, 
+  notes, 
+  adminNotes, 
+  dialogOpen,
+  dialogItem,
+  openNoteDialog, 
+  closeNoteDialog,
+  addNote, 
+  updateNote,
+  onChangeNote }) => {
   return (
     <Grid className="user-form" container spacing={24}>
       <Grid item xs={12} md={3} >
@@ -166,34 +189,6 @@ const User = ({ classes, user, onChange, role, isNew, roles, notes, adminNotes }
           onChange={onChange.bind(this, 'email')}
           fullWidth={true} />
       </Grid>
-      {/* <Grid item xs={12} md={6} >
-        <TextField
-          multiline
-          rowsMax="10"
-          label="Notes"
-          placeholder="Notes"
-          field="notes"
-          name="notes"
-          value={user.notes || ''}
-          onChange={onChange.bind(this, 'notes')}
-          fullWidth={true} />
-      </Grid>
-      {
-        role === 'Admin' ?
-          <Grid item xs={12} md={6} >
-            <TextField
-              multiline
-              rowsMax="10"
-              label="Admin Notes"
-              placeholder="Admin Notes"
-              field="personalMetadata"
-              name="personalMetadata"
-              value={user.personalMetadata || ''}
-              onChange={onChange.bind(this, 'personalMetadata')}
-              fullWidth={true} />
-          </Grid> :
-          <Grid item xs={12} md={6} />
-      } */}
       {
         (role === 'Admin' && isNew) &&
         <React.Fragment>
@@ -210,17 +205,36 @@ const User = ({ classes, user, onChange, role, isNew, roles, notes, adminNotes }
           <Grid item xs={12} md={9} />
         </React.Fragment>
       }
+      <TableHeader subHeader='Notes' buttonText='Add Note' buttonClick={ openNoteDialog } />
       <Grid item xs={12} md={12}>
-        <h2 className={ classes.subHeader }>Notes</h2>
-        <MUIDataTable data={ formatNotes(notes) } columns={ noteColumns } />
+        <MUIDataTable data={ formatNotes(notes, openNoteDialog) } columns={ noteColumns } />
       </Grid>
       {
         role === 'Admin' &&
-        <Grid item xs={12} md={12} >
-          <h2 className={classes.subHeader}>Admin Notes</h2>
-          <MUIDataTable data={formatAdminNotes(adminNotes)} columns={adminNoteColumns} />
-        </Grid>
+        <React.Fragment>
+          <TableHeader subHeader='Admin Notes' buttonText='Add Admin Note' buttonClick={openNoteDialog} />
+          <Grid item xs={12} md={12} >
+            <MUIDataTable data={formatAdminNotes(adminNotes)} columns={adminNoteColumns} />
+          </Grid>
+        </React.Fragment>
       }
+      <Dialog 
+        dialogOpen={ dialogOpen } 
+        closeDialog={ closeNoteDialog } 
+        dialogItem={ dialogItem }
+        dialogTitle={ dialogItem.id ? 'Update Note' : 'Add Note' }
+        addFn={ addNote }
+        updateFn={ updateNote }
+      >
+        <TextField
+          label="Note"
+          placeholder="note"
+          field='note'
+          name='note'
+          value={ dialogItem.note || '' }
+          onChange={onChangeNote.bind(this, 'note', dialogItem)}
+          fullWidth={ true } />
+      </Dialog>
     </Grid>
   )
 }
@@ -234,7 +248,14 @@ User.propTypes = {
   isNew: bool.isRequired,
   roles: array.isRequired,
   notes: array,
-  adminNotes: array
+  adminNotes: array,
+  dialogOpen: bool.isRequired,
+  dialogItem: object,
+  openNoteDialog: func.isRequired,
+  closeNoteDialog: func.isRequired,
+  addNote: func.isRequired,
+  updateNote: func.isRequired,
+  onChangeNote: func.isRequired
 };
 
 export default withStyles(styles)(User);

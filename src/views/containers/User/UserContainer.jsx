@@ -30,6 +30,13 @@ class User extends CreateEditComponent {
   }
 
   @boundMethod
+  handleItemChange(name, item, event) {
+    debugger;
+    const newItem = Object.assign({}, item, { [name]: event.target.value });
+    this.setState({ dialogItem: newItem });
+  }
+
+  @boundMethod
   handlePersist() {
     this.persist({
       item: this.props.user,
@@ -38,8 +45,29 @@ class User extends CreateEditComponent {
     });
   }
 
+  // note dialog
+  @boundMethod
+  openNoteDialog(data) {
+    this.openDialog(data);
+  }
+
+  @boundMethod
+  closeNoteDialog() {
+    this.closeDialog();
+  }
+
+  @boundMethod
+  addNote(data) {
+    debugger;
+  }
+
+  @boundMethod
+  updateNote(id, data) {
+    debugger;
+  }
+
   render() {
-    const { isNew, redirectToList, isSaving } = this.state;
+    const { isNew, redirectToList, isSaving, dialogOpen, dialogItem } = this.state;
     const { user, roles, notes, adminNotes } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
@@ -59,6 +87,14 @@ class User extends CreateEditComponent {
             roles={ roles }
             notes={ notes }
             adminNotes={ adminNotes }
+            // note dialog
+            dialogOpen={ dialogOpen }
+            dialogItem={ dialogItem }
+            openNoteDialog={this.openNoteDialog}
+            closeNoteDialog={this.closeNoteDialog}
+            addNote={this.addNote}
+            updateNote={this.updateNote}
+            onChangeNote={this.handleItemChange}
             {...this.props}>
             <Form />
           </View>

@@ -33,7 +33,9 @@ class CreateEditComponent extends Component {
       id: this.props[this.idField] || undefined,
       isSaving: false,
       isNew: !this.props[this.idField] || this.props[this.idField] === "create",
-      redirectToList: false
+      redirectToList: false,
+      dialogOpen: false,
+      dialogItem: {}
     });
   }
 
@@ -57,6 +59,14 @@ class CreateEditComponent extends Component {
     this.setState(newState);
   }
 
+  openDialog(dialogItem) {
+    this.setState({ dialogOpen: true, dialogItem });
+  }
+
+  closeDialog() {
+    this.setState({ dialogOpen: false, dialogItem: {} });
+  }
+
   persist({ item, addFn, updateFn }) {
     const { isNew, id } = this.state;
     const { name } = item;
@@ -65,23 +75,45 @@ class CreateEditComponent extends Component {
 
     // these add/update functions can probably be abstracted out to the CreateEditComponent as props
     if (isNew) {
-      addFn(item)
-        .then(() => this.notify({ message: `Add successful`, type: 'success' }))
-        .then(() => this.updateState(false, true))
-        .catch(() => {
-          this.notify({ message: `Add error`, type: 'error', autoClose: false });
-          this.updateState(true, true);
-        });
+      // addFn(item)
+      //   .then(() => this.notify({ message: `Add successful`, type: 'success' }))
+      //   .then(() => this.updateState(false, true))
+      //   .catch(() => {
+      //     this.notify({ message: `Add error`, type: 'error', autoClose: false });
+      //     this.updateState(true, true);
+      //   });
+      this.add(addFn, item);
     } else {
       // TODO: show a notification
-      updateFn(id, item)
-        .then(() => this.notify({ message: `Save successful`, type: 'success' }))
-        .then(() => this.updateState())
-        .catch(() => {
-          this.notify({ message: `Save error`, type: 'error', autoClose: false });
-          this.updateState(true);
-        });
+      // updateFn(id, item)
+      //   .then(() => this.notify({ message: `Save successful`, type: 'success' }))
+      //   .then(() => this.updateState())
+      //   .catch(() => {
+      //     this.notify({ message: `Save error`, type: 'error', autoClose: false });
+      //     this.updateState(true);
+      //   });
+      this.update(updateFn, id, item);
     }
+  }
+
+  add(addFn, item) {
+    addFn(item)
+      .then(() => this.notify({ message: `Add successful`, type: 'success' }))
+      .then(() => this.updateState(false, true))
+      .catch(() => {
+        this.notify({ message: `Add error`, type: 'error', autoClose: false });
+        this.updateState(true, true);
+      });
+  }
+
+  update(updateFn, id, item) {
+    updateFn(id, item)
+      .then(() => this.notify({ message: `Save successful`, type: 'success' }))
+      .then(() => this.updateState())
+      .catch(() => {
+        this.notify({ message: `Save error`, type: 'error', autoClose: false });
+        this.updateState(true);
+      });
   }
 
   notify({ message = 'Message here', type = 'info', autoClose = true }) {
@@ -100,6 +132,15 @@ class CreateEditComponent extends Component {
       default:
         toast.info(message, toastOpts);
         break;
+    }
+  }
+
+  persistNote({ note, addFn, updateFn, isNew }) {
+    debugger;
+    if(isNew) {
+      this.add(addFn, note);
+    } else {
+      this.update(updateFn, note.id, note);
     }
   }
 }
