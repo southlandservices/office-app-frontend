@@ -78,6 +78,23 @@ const updateUser = (id, data) => {
   }
 }
 
+const listNotes = (id) => {
+  const endpoint = `${endpointBase}users/${id}/notes`;
+  const headers = getHeaders();
+  return async (dispatch) => {
+    try {
+      let response = await fetch(endpoint, {
+        method: 'GET',
+        headers
+      });
+      let notes = await response.json();
+      dispatch({ type: types.LIST_NOTES, payload: notes });
+    } catch (e) {
+      dispatch({ type: types.ERROR, payload: e })
+    }
+  }
+};
+
 // client-only
 const editRefresh = data => {
   return dispatch => dispatch(actions.editRefresh(data));
@@ -87,6 +104,7 @@ export default {
   addUser,
   updateUser,
   list,
+  listNotes,
   get: getOne,
   editRefresh
 }

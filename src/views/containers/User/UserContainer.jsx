@@ -20,12 +20,20 @@ class User extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
+    this.props.listNotes(this.props.id);
     this.props.listRoles();
   }
 
   @boundMethod
   handleChange(name, event) {
     this.change(name, event.target.value, this.props.user);
+  }
+
+  @boundMethod
+  handleItemChange(name, item, event) {
+    debugger;
+    const newItem = Object.assign({}, item, { [name]: event.target.value });
+    this.setState({ dialogItem: newItem });
   }
 
   @boundMethod
@@ -37,9 +45,30 @@ class User extends CreateEditComponent {
     });
   }
 
+  // note dialog
+  @boundMethod
+  openNoteDialog(data) {
+    this.openDialog(data);
+  }
+
+  @boundMethod
+  closeNoteDialog() {
+    this.closeDialog();
+  }
+
+  @boundMethod
+  addNote(data) {
+    debugger;
+  }
+
+  @boundMethod
+  updateNote(id, data) {
+    debugger;
+  }
+
   render() {
-    const { isNew, redirectToList, isSaving } = this.state;
-    const { user, roles } = this.props;
+    const { isNew, redirectToList, isSaving, dialogOpen, dialogItem } = this.state;
+    const { user, roles, notes, adminNotes } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
     return (
@@ -56,6 +85,16 @@ class User extends CreateEditComponent {
             item={user}
             role={ role }
             roles={ roles }
+            notes={ notes }
+            adminNotes={ adminNotes }
+            // note dialog
+            dialogOpen={ dialogOpen }
+            dialogItem={ dialogItem }
+            openNoteDialog={this.openNoteDialog}
+            closeNoteDialog={this.closeNoteDialog}
+            addNote={this.addNote}
+            updateNote={this.updateNote}
+            onChangeNote={this.handleItemChange}
             {...this.props}>
             <Form />
           </View>
@@ -80,13 +119,15 @@ User.propTypes = {
 const mapStateToProps = ({ userState, roleState }) => {
   return { 
     user: userState.user,
+    notes: userState.notes,
+    adminNotes: userState.adminNotes,
     roles: roleState.roles
   };
 };
 
-const { get, editRefresh, addUser, updateUser } = userOperations;
+const { get, editRefresh, addUser, updateUser, listNotes } = userOperations;
 const { list: listRoles } = roleOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles };
+const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

@@ -6,6 +6,10 @@ const PERSIST_ERROR = 'PERSIST_ERROR';
 const EDIT_REFRESH = 'EDIT_REFRESH';
 const TOGGLE_USER = 'TOGGLE_USER';
 const LIST = 'LIST_USERS';
+const LIST_NOTES = 'LIST_NOTES';
+const ADD_NOTE = 'ADD_NOTE';
+const UPDATE_NOTE = 'UPDATE_NOTE';
+const DELETE_NOTE = 'DELETE_NOTE'
 
 export default {
   SET_USER,
@@ -15,5 +19,9 @@ export default {
   PERSIST_ERROR,
   EDIT_REFRESH,
   TOGGLE_USER,
-  LIST
+  LIST,
+  LIST_NOTES,
+  ADD_NOTE,
+  UPDATE_NOTE,
+  DELETE_NOTE
 };

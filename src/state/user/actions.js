@@ -52,6 +52,13 @@ export const toggleUserStatus = id => ({
   id
 });
 
+export const notes = data => {
+  return {
+    type: types.LIST_NOTES,
+    payload: data
+  };
+};
+
 export default {
   getUser,
   addUser,
@@ -60,5 +67,6 @@ export default {
   persistError,
   editRefresh,
   toggleUserStatus,
-  list
+  list,
+  notes
 };
