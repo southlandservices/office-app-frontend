@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Button } from '@material-ui/core';
 
-const DialogModal = ({ classes, dialogOpen, closeDialog, children, dialogItem, dialogTitle, addFn, updateFn }) => {
+const DialogModal = ({ classes, dialogOpen, closeDialog, children, dialogItem, dialogTitle, addFn, updateFn, onPersistNote }) => {
   const { isNew, id } = dialogItem;
   return (
     <Dialog open={dialogOpen} onClose={closeDialog} aria-labelledby="form-dialog-title">
@@ -20,8 +20,8 @@ const DialogModal = ({ classes, dialogOpen, closeDialog, children, dialogItem, d
         </Button>
         {
           isNew ?
-          <Button color="primary" onClick={ () => addFn(dialogItem) }>Add</Button> :
-          <Button color="primary" onClick={ () => updateFn(id, dialogItem) }>Update</Button>
+            <Button color="primary" onClick={() => onPersistNote(null, dialogItem)}>Add</Button> :
+            <Button color="primary" onClick={() => onPersistNote(id, dialogItem)}>Update</Button>
         }
       </DialogActions>
     </Dialog>

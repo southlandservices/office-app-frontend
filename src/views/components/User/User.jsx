@@ -106,7 +106,8 @@ const User = ({
   closeNoteDialog,
   addNote, 
   updateNote,
-  onChangeNote }) => {
+  onChangeNote,
+  onPersistNote }) => {
   return (
     <Grid className="user-form" container spacing={24}>
       <Grid item xs={12} md={3} >
@@ -223,8 +224,7 @@ const User = ({
         closeDialog={ closeNoteDialog } 
         dialogItem={ dialogItem }
         dialogTitle={ dialogItem.id ? 'Update Note' : 'Add Note' }
-        addFn={ addNote }
-        updateFn={ updateNote }
+        onPersistNote={ onPersistNote }
       >
         <TextField
           label="Note"
@@ -253,9 +253,8 @@ User.propTypes = {
   dialogItem: object,
   openNoteDialog: func.isRequired,
   closeNoteDialog: func.isRequired,
-  addNote: func.isRequired,
-  updateNote: func.isRequired,
-  onChangeNote: func.isRequired
+  onChangeNote: func.isRequired,
+  onPersistNote: func.isRequired
 };
 
 export default withStyles(styles)(User);

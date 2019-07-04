@@ -31,7 +31,6 @@ class User extends CreateEditComponent {
 
   @boundMethod
   handleItemChange(name, item, event) {
-    debugger;
     const newItem = Object.assign({}, item, { [name]: event.target.value });
     this.setState({ dialogItem: newItem });
   }
@@ -56,14 +55,22 @@ class User extends CreateEditComponent {
     this.closeDialog();
   }
 
-  @boundMethod
-  addNote(data) {
-    debugger;
+  refreshNotes() {
+    this.closeDialog();
+    this.props.listNotes(this.props.id);
   }
 
   @boundMethod
-  updateNote(id, data) {
-    debugger;
+  handlePersistNote(id, data) {
+    this.persistNote({
+      note: { id, note: data.note },
+      addFn: this.props.addNote,
+      updateFn: this.props.updateNote,
+      isNew: !id,
+      callback: () => {
+        this.refreshNotes();
+      }
+    });
   }
 
   render() {
@@ -92,8 +99,7 @@ class User extends CreateEditComponent {
             dialogItem={ dialogItem }
             openNoteDialog={this.openNoteDialog}
             closeNoteDialog={this.closeNoteDialog}
-            addNote={this.addNote}
-            updateNote={this.updateNote}
+            onPersistNote={ this.handlePersistNote }
             onChangeNote={this.handleItemChange}
             {...this.props}>
             <Form />
@@ -125,9 +131,9 @@ const mapStateToProps = ({ userState, roleState }) => {
   };
 };
 
-const { get, editRefresh, addUser, updateUser, listNotes } = userOperations;
+const { get, editRefresh, addUser, updateUser, listNotes, updateNote } = userOperations;
 const { list: listRoles } = roleOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes };
+const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes, updateNote };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);
