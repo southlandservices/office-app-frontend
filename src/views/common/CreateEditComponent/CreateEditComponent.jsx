@@ -55,7 +55,8 @@ class CreateEditComponent extends Component {
   }
 
   updateState(error = false, isNew = false) {
-    const newState = Object.assign({}, { isSaving: false }, { error }, { redirectToList: isNew });
+    // const newState = Object.assign({}, { isSaving: false }, { error }, { redirectToList: isNew });
+    const newState = Object.assign({}, { isSaving: false }, { error });
     this.setState(newState);
   }
 
@@ -80,10 +81,15 @@ class CreateEditComponent extends Component {
     }
   }
 
-  add(addFn, item) {
+  add(addFn, item, callback) {
     addFn(item)
       .then(() => this.notify({ message: `Add successful`, type: 'success' }))
       .then(() => this.updateState(false, true))
+      .then(() => {
+        if (callback) {
+          callback();
+        }
+      })
       .catch(() => {
         this.notify({ message: `Add error`, type: 'error', autoClose: false });
         this.updateState(true, true);
@@ -127,7 +133,7 @@ class CreateEditComponent extends Component {
 
   persistNote({ note, addFn, updateFn, isNew, callback }) {
     if(isNew) {
-      this.add(addFn, note);
+      this.add(addFn, note, callback);
     } else {
       this.update(updateFn, note.id, note, callback);
     }

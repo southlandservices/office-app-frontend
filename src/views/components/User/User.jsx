@@ -51,7 +51,7 @@ const noteColumns = [
   { label: 'Updated', name: 'updatedOn' }
 ]
 
-const formatNotes = (notes, formatNoteDialog) => {
+const formatNotes = (notes, formatNoteDialog, isAdmin) => {
   return _.map(notes, note => {
     const submitterLink = {
       id: note.submitterId,
@@ -60,34 +60,7 @@ const formatNotes = (notes, formatNoteDialog) => {
     const editLink = { note, clickHandler: formatNoteDialog };
     const createdOn = format(note.createdAt, 'MM/DD/YYYY HH:mm:ss');
     const updatedOn = format(note.updatedAt, 'MM/DD/YYYY HH:mm:ss');
-    return Object.assign(note, { submitterLink, editLink, createdOn, updatedOn });
-  });
-}
-
-const adminNoteColumns = [
-  { label: 'Note', name: 'note' },
-  {
-    label: 'Submitter',
-    name: 'submitterLink',
-    options: {
-      customBodyRender:
-        (value, tableMeta, updateValue) =>
-          (<Link to={`/users/${value.id}`} className='textLink'>{value.name}</Link>)
-    }
-  },
-  { label: 'Created', name: 'createdOn' },
-  { label: 'Updated', name: 'updatedOn' }
-]
-
-const formatAdminNotes = (notes) => {
-  return _.map(notes, note => {
-    const submitterLink = {
-      id: note.submitterId,
-      name: `${note.submitter.lastName}, ${note.submitter.firstName}`
-    };
-    const createdOn = format(note.createdAt, 'MM/DD/YYYY HH:mm:ss');
-    const updatedOn = format(note.updatedAt, 'MM/DD/YYYY HH:mm:ss');
-    return Object.assign(note, { submitterLink, createdOn, updatedOn });
+    return Object.assign(note, { submitterLink, editLink, createdOn, updatedOn, isAdmin });
   });
 }
 
@@ -104,8 +77,6 @@ const User = ({
   dialogItem,
   openNoteDialog, 
   closeNoteDialog,
-  addNote, 
-  updateNote,
   onChangeNote,
   onPersistNote }) => {
   return (
@@ -206,16 +177,16 @@ const User = ({
           <Grid item xs={12} md={9} />
         </React.Fragment>
       }
-      <TableHeader subHeader='Notes' buttonText='Add Note' buttonClick={ openNoteDialog } />
+      <TableHeader subHeader='Notes' buttonText='Add Note' buttonClick={ () => openNoteDialog({ isAdmin: false, isNew: true }) } />
       <Grid item xs={12} md={12}>
         <MUIDataTable data={ formatNotes(notes, openNoteDialog) } columns={ noteColumns } />
       </Grid>
       {
         role === 'Admin' &&
         <React.Fragment>
-          <TableHeader subHeader='Admin Notes' buttonText='Add Admin Note' buttonClick={openNoteDialog} />
+          <TableHeader subHeader='Admin Notes' buttonText='Add Admin Note' buttonClick={() => openNoteDialog({ isAdmin: true, isNew: true }) } />
           <Grid item xs={12} md={12} >
-            <MUIDataTable data={formatAdminNotes(adminNotes)} columns={adminNoteColumns} />
+            <MUIDataTable data={formatNotes(adminNotes, openNoteDialog, true)} columns={noteColumns} />
           </Grid>
         </React.Fragment>
       }

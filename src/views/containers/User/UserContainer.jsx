@@ -61,9 +61,9 @@ class User extends CreateEditComponent {
   }
 
   @boundMethod
-  handlePersistNote(id, data) {
+  handlePersistNote(id, data, isAdmin) {
     this.persistNote({
-      note: { id, note: data.note },
+      note: { id, isAdmin, note: data.note, userId: this.props.user.id },
       addFn: this.props.addNote,
       updateFn: this.props.updateNote,
       isNew: !id,
@@ -85,8 +85,8 @@ class User extends CreateEditComponent {
           redirectToList ?
           <Redirect to="/users" /> :
           <View
-            onChange={this.handleChange}
-            onPersist={this.handlePersist}
+            onChange={this.handleChange} // local change to text field
+            onPersist={this.handlePersist} // add/update to the db
             isNew={isNew}
             saveInProgress={isSaving}
             item={user}
@@ -99,8 +99,8 @@ class User extends CreateEditComponent {
             dialogItem={ dialogItem }
             openNoteDialog={this.openNoteDialog}
             closeNoteDialog={this.closeNoteDialog}
-            onPersistNote={ this.handlePersistNote }
-            onChangeNote={this.handleItemChange}
+            onPersistNote={ this.handlePersistNote } // add/update to the db
+            onChangeNote={this.handleItemChange}  // local change to text field
             {...this.props}>
             <Form />
           </View>
@@ -131,9 +131,9 @@ const mapStateToProps = ({ userState, roleState }) => {
   };
 };
 
-const { get, editRefresh, addUser, updateUser, listNotes, updateNote } = userOperations;
+const { get, editRefresh, addUser, updateUser, listNotes, updateNote, addNote } = userOperations;
 const { list: listRoles } = roleOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes, updateNote };
+const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes, updateNote, addNote };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);
