@@ -31,7 +31,6 @@ class User extends CreateEditComponent {
 
   @boundMethod
   handleItemChange(name, item, event) {
-    debugger;
     const newItem = Object.assign({}, item, { [name]: event.target.value });
     this.setState({ dialogItem: newItem });
   }
@@ -56,14 +55,22 @@ class User extends CreateEditComponent {
     this.closeDialog();
   }
 
-  @boundMethod
-  addNote(data) {
-    debugger;
+  refreshNotes() {
+    this.closeDialog();
+    this.props.listNotes(this.props.id);
   }
 
   @boundMethod
-  updateNote(id, data) {
-    debugger;
+  handlePersistNote(id, data, isAdmin) {
+    this.persistNote({
+      note: { id, isAdmin, note: data.note, userId: this.props.user.id },
+      addFn: this.props.addNote,
+      updateFn: this.props.updateNote,
+      isNew: !id,
+      callback: () => {
+        this.refreshNotes();
+      }
+    });
   }
 
   render() {
@@ -78,8 +85,8 @@ class User extends CreateEditComponent {
           redirectToList ?
           <Redirect to="/users" /> :
           <View
-            onChange={this.handleChange}
-            onPersist={this.handlePersist}
+            onChange={this.handleChange} // local change to text field
+            onPersist={this.handlePersist} // add/update to the db
             isNew={isNew}
             saveInProgress={isSaving}
             item={user}
@@ -92,9 +99,8 @@ class User extends CreateEditComponent {
             dialogItem={ dialogItem }
             openNoteDialog={this.openNoteDialog}
             closeNoteDialog={this.closeNoteDialog}
-            addNote={this.addNote}
-            updateNote={this.updateNote}
-            onChangeNote={this.handleItemChange}
+            onPersistNote={ this.handlePersistNote } // add/update to the db
+            onChangeNote={this.handleItemChange}  // local change to text field
             {...this.props}>
             <Form />
           </View>
@@ -125,9 +131,9 @@ const mapStateToProps = ({ userState, roleState }) => {
   };
 };
 
-const { get, editRefresh, addUser, updateUser, listNotes } = userOperations;
+const { get, editRefresh, addUser, updateUser, listNotes, updateNote, addNote } = userOperations;
 const { list: listRoles } = roleOperations;
 
-const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes };
+const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes, updateNote, addNote };
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

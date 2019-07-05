@@ -55,7 +55,8 @@ class CreateEditComponent extends Component {
   }
 
   updateState(error = false, isNew = false) {
-    const newState = Object.assign({}, { isSaving: false }, { error }, { redirectToList: isNew });
+    // const newState = Object.assign({}, { isSaving: false }, { error }, { redirectToList: isNew });
+    const newState = Object.assign({}, { isSaving: false }, { error });
     this.setState(newState);
   }
 
@@ -73,44 +74,39 @@ class CreateEditComponent extends Component {
 
     this.setState({ isSaving: true });
 
-    // these add/update functions can probably be abstracted out to the CreateEditComponent as props
     if (isNew) {
-      // addFn(item)
-      //   .then(() => this.notify({ message: `Add successful`, type: 'success' }))
-      //   .then(() => this.updateState(false, true))
-      //   .catch(() => {
-      //     this.notify({ message: `Add error`, type: 'error', autoClose: false });
-      //     this.updateState(true, true);
-      //   });
       this.add(addFn, item);
     } else {
-      // TODO: show a notification
-      // updateFn(id, item)
-      //   .then(() => this.notify({ message: `Save successful`, type: 'success' }))
-      //   .then(() => this.updateState())
-      //   .catch(() => {
-      //     this.notify({ message: `Save error`, type: 'error', autoClose: false });
-      //     this.updateState(true);
-      //   });
       this.update(updateFn, id, item);
     }
   }
 
-  add(addFn, item) {
+  add(addFn, item, callback) {
     addFn(item)
       .then(() => this.notify({ message: `Add successful`, type: 'success' }))
       .then(() => this.updateState(false, true))
+      .then(() => {
+        if (callback) {
+          callback();
+        }
+      })
       .catch(() => {
         this.notify({ message: `Add error`, type: 'error', autoClose: false });
         this.updateState(true, true);
       });
   }
 
-  update(updateFn, id, item) {
+  update(updateFn, id, item, callback) {
     updateFn(id, item)
       .then(() => this.notify({ message: `Save successful`, type: 'success' }))
       .then(() => this.updateState())
-      .catch(() => {
+      .then(() => {
+        if(callback) {
+          callback();
+        }
+      })
+      .catch(e=> {
+        console.log('error', e);
         this.notify({ message: `Save error`, type: 'error', autoClose: false });
         this.updateState(true);
       });
@@ -135,12 +131,11 @@ class CreateEditComponent extends Component {
     }
   }
 
-  persistNote({ note, addFn, updateFn, isNew }) {
-    debugger;
+  persistNote({ note, addFn, updateFn, isNew, callback }) {
     if(isNew) {
-      this.add(addFn, note);
+      this.add(addFn, note, callback);
     } else {
-      this.update(updateFn, note.id, note);
+      this.update(updateFn, note.id, note, callback);
     }
   }
 }

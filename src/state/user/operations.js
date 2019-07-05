@@ -95,6 +95,43 @@ const listNotes = (id) => {
   }
 };
 
+const addNote = (data) => {
+  const endpoint = `${endpointBase}usernotes`;
+  const headers = getHeaders();
+  return async (dispatch) => {
+    try {
+      let response = await fetch(endpoint, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(data)
+      });
+      let result = await response.json();
+      dispatch({ type: types.PERSIST_SUCCESS, payload: result });
+    } catch (e) {
+      dispatch({ type: types.PERSIST_ERROR, payload: e });
+    }
+  }
+}
+
+const updateNote = (id, data) => {
+  const endpoint = `${endpointBase}usernotes/${id}`;
+  const headers = getHeaders();
+  return async (dispatch) => {
+    try {
+      let response = await fetch(endpoint, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify(data)
+      });
+      let result = await response.json();
+      dispatch({ type: types.PERSIST_SUCCESS, payload: result });
+    } catch (e) {
+      console.log('error', e)
+      dispatch({ type: types.PERSIST_ERROR, payload: e });
+    }
+  }
+}
+
 // client-only
 const editRefresh = data => {
   return dispatch => dispatch(actions.editRefresh(data));
@@ -106,5 +143,7 @@ export default {
   list,
   listNotes,
   get: getOne,
-  editRefresh
+  editRefresh,
+  addNote,
+  updateNote
 }
