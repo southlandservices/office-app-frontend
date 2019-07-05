@@ -81,8 +81,8 @@ class CreateEditComponent extends Component {
     }
   }
 
-  add(addFn, item, callback) {
-    addFn(item)
+  add(addFn, item, callback, typeSlug) {
+    addFn(item, typeSlug)
       .then(() => this.notify({ message: `Add successful`, type: 'success' }))
       .then(() => this.updateState(false, true))
       .then(() => {
@@ -96,8 +96,8 @@ class CreateEditComponent extends Component {
       });
   }
 
-  update(updateFn, id, item, callback) {
-    updateFn(id, item)
+  update(updateFn, id, item, callback, typeSlug) {
+    updateFn(id, item, typeSlug)
       .then(() => this.notify({ message: `Save successful`, type: 'success' }))
       .then(() => this.updateState())
       .then(() => {
@@ -131,11 +131,11 @@ class CreateEditComponent extends Component {
     }
   }
 
-  persistNote({ note, addFn, updateFn, isNew, callback }) {
+  persistNote({ note, addFn, updateFn, isNew, typeSlug, callback }) {
     if(isNew) {
-      this.add(addFn, note, callback);
+      this.add(addFn, note, callback, typeSlug);
     } else {
-      this.update(updateFn, note.id, note, callback);
+      this.update(updateFn, note.id, note, callback, typeSlug);
     }
   }
 }

@@ -5,6 +5,7 @@ import { boundMethod } from 'autobind-decorator';
 import { Redirect } from 'react-router-dom';
 import { userOperations } from '../../../state/user';
 import { roleOperations } from '../../../state/role';
+import { noteOperations } from '../../../state/note';
 import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
 import View from '../../common/FormWrapper';
@@ -20,7 +21,7 @@ class User extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
-    this.props.listNotes(this.props.id);
+    this.props.listNotes(this.props.id, 'user');
     this.props.listRoles();
   }
 
@@ -57,7 +58,7 @@ class User extends CreateEditComponent {
 
   refreshNotes() {
     this.closeDialog();
-    this.props.listNotes(this.props.id);
+    this.props.listNotes(this.props.id, 'user');
   }
 
   @boundMethod
@@ -67,6 +68,7 @@ class User extends CreateEditComponent {
       addFn: this.props.addNote,
       updateFn: this.props.updateNote,
       isNew: !id,
+      typeSlug: 'user',
       callback: () => {
         this.refreshNotes();
       }
@@ -122,16 +124,17 @@ User.propTypes = {
   user: object,
 };
 
-const mapStateToProps = ({ userState, roleState }) => {
+const mapStateToProps = ({ userState, roleState, noteState }) => {
   return { 
     user: userState.user,
-    notes: userState.notes,
-    adminNotes: userState.adminNotes,
-    roles: roleState.roles
+    roles: roleState.roles,
+    notes: noteState.notes,
+    adminNotes: noteState.adminNotes,
   };
 };
 
-const { get, editRefresh, addUser, updateUser, listNotes, updateNote, addNote } = userOperations;
+const { get, editRefresh, addUser, updateUser } = userOperations;
+const { listNotes, updateNote, addNote } = noteOperations;
 const { list: listRoles } = roleOperations;
 
 const mapDispatchToProps = { get, editRefresh, addUser, updateUser, listRoles, listNotes, updateNote, addNote };

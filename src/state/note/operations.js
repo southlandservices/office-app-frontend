@@ -1,4 +1,3 @@
-import actions from './actions';
 import types from './types';
 
 const endpointBase = `${process.env.API_PREFIX}`;
@@ -8,8 +7,8 @@ const getHeaders = () => {
   return { authorization }
 }
 
-const list = () => {
-  const endpoint = `${endpointBase}users`;
+const listNotes = (id, slug) => {
+  const endpoint = `${endpointBase}${slug}s/${id}/notes`;
   const headers = getHeaders();
   return async (dispatch) => {
     try {
@@ -17,33 +16,16 @@ const list = () => {
         method: 'GET',
         headers
       });
-      let users = await response.json();
-      dispatch({ type: types.LIST, payload: users });
+      let notes = await response.json();
+      dispatch({ type: types.LIST_NOTES, payload: notes });
     } catch (e) {
       dispatch({ type: types.ERROR, payload: e })
     }
   }
 };
 
-const getOne = (id) => {
-  const endpoint = `${endpointBase}users/${id}`;
-  const headers = getHeaders();
-  return async (dispatch) => {
-    try {
-      let response = await fetch(endpoint, {
-        method: 'GET',
-        headers
-      });
-      let user = await response.json();
-      dispatch({ type: types.SET_USER, payload: user });
-    } catch (e) {
-      dispatch({ type: types.ERROR, payload: e })
-    }
-  }
-}
-
-const addUser = (data) => {
-  const endpoint = `${endpointBase}users`;
+const addNote = (data, slug) => {
+  const endpoint = `${endpointBase}${slug}notes`;
   const headers = getHeaders();
   return async (dispatch) => {
     try {
@@ -60,8 +42,8 @@ const addUser = (data) => {
   }
 }
 
-const updateUser = (id, data) => {
-  const endpoint = `${endpointBase}users/${id}`;
+const updateNote = (id, data, slug) => {
+  const endpoint = `${endpointBase}${slug}notes/${id}`;
   const headers = getHeaders();
   return async (dispatch) => {
     try {
@@ -73,20 +55,14 @@ const updateUser = (id, data) => {
       let result = await response.json();
       dispatch({ type: types.PERSIST_SUCCESS, payload: result });
     } catch (e) {
+      console.log('error', e)
       dispatch({ type: types.PERSIST_ERROR, payload: e });
     }
   }
 }
 
-// client-only
-const editRefresh = data => {
-  return dispatch => dispatch(actions.editRefresh(data));
-};
-
 export default {
-  addUser,
-  updateUser,
-  list,
-  get: getOne,
-  editRefresh
+  listNotes,
+  addNote,
+  updateNote
 }
