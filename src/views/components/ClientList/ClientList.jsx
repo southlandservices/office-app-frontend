@@ -56,7 +56,7 @@ const pageOptions = () => <ButtonLink location="/clients/create" text="Add New C
 
 const ClientList = ({ classes, clients }) => {
   return (
-    <Grid className="client-contact-list" container spacing={24}>
+    <Grid className="client-contact-list" container spacing={3}>
       <PageHeader pageOptions={pageOptions} pageTitle="Clients" />
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable data={data(clients)} columns={columns} className={ classes.fullWidth } />

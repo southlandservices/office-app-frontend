@@ -97,7 +97,7 @@ const pageOptions = () => <ButtonLink location="/jobs/create" text="Add New Job"
 
 const JobList = ({ classes, jobs }) => {
   return (
-    <Grid className="job-list" container spacing={24}>
+    <Grid className="job-list" container spacing={3}>
       <PageHeader pageOptions={pageOptions} pageTitle="Jobs" />
       {/* <MuiThemeProvider theme={getMuiTheme()}> */}
         <MUIDataTable data={data(jobs)} columns={columns} className={ classes.fullWidth } />

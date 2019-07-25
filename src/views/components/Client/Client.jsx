@@ -39,7 +39,7 @@ const data = (clientContacts) => {
 
 const Client = ({ classes, client, onChange, role, isNew, clientContacts }) => {
   return (
-    <Grid className="client-form" container spacing={24}>
+    <Grid className="client-form" container spacing={3}>
       <Grid item xs={12} md={3} >
         <TextField
           label="Name"

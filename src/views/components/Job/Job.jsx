@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-import { format } from 'date-fns';
 import DateFnsUtils from "@date-io/moment";
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import PropTypes from 'prop-types';
@@ -29,7 +28,7 @@ const Job = ({ classes, job, onChange, role, isNew, southlandRepOptions }) => {
   const { southlandRep, client, shipperCustomer } = job;
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid className="job-form" container spacing={24}>
+      <Grid className="job-form" container spacing={3}>
         {
           !_.isEmpty(southlandRepOptions) &&
           <Grid item xs={12} md={3} >
@@ -54,20 +53,12 @@ const Job = ({ classes, job, onChange, role, isNew, southlandRepOptions }) => {
         {
           !_.isEmpty(job) &&
           <Grid item xs={12} md={3}>
-            {/* <TextField
-              id="intakeDate"
-              label="Intake Date"
-              type="datetime-local"
-              name="intakeDate"
-              value={format(job.intakeDate, 'MM/DD/YYYY HH:mm:ss') || ''}
-              onChange={onChange.bind(this, 'intakeDate')} */}
-            {/* <KeyboardDateTimePicker
+            <KeyboardDateTimePicker
               variant="inline"
               label="Intake Date"
               format="MM/DD/YYYY HH:mm:ss"
               value={job.intakeDate} 
-              onChange={onChange.bind(this, 'intakeDate')} /> */}
-            />
+              onChange={onChange.bind(this, 'intakeDate')} />
           </Grid>
         }
       </Grid>

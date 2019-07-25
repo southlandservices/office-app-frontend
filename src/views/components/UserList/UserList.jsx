@@ -43,7 +43,7 @@ const pageOptions = () => <ButtonLink location = "/users/create" text = "Add New
 
 const UserList = ({ classes, users, tableOptions }) => {
   return (
-    <Grid className="user-list" container spacing={24}>
+    <Grid className="user-list" container spacing={3}>
       <PageHeader pageOptions={ pageOptions } pageTitle="Users" />
       <MUIDataTable data={ data(users) } columns={ columns } />
     </Grid>

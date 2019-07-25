@@ -13,7 +13,7 @@ const Menu = ({ classes, authenticated, checkFn }) => {
     return (
       <div className={classes.wrapper}>
         <div className={classes.menuBar}>
-          <Grid container spacing={24}>
+          <Grid container spacing={3}>
             <NavLink exact to="/dashboard" activeClassName={classes.activeLink} className={classes.buttonLink}>
               <Button className={classes.buttonLink}>Dashboard</Button>
             </NavLink>

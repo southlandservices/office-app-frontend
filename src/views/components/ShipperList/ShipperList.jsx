@@ -42,7 +42,7 @@ const pageOptions = () => <ButtonLink location = "/shippers/create" text = "Add 
 
 const ShipperList = ({ classes, shippers, tableOptions }) => {
   return (
-    <Grid className="shipper-list" container spacing={24}>
+    <Grid className="shipper-list" container spacing={3}>
       <PageHeader pageOptions={ pageOptions } pageTitle="Shippers" />
       <MUIDataTable data={data(shippers)} columns={columns} className={classes.fullWidth} />
     </Grid>

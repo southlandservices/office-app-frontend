@@ -25,7 +25,7 @@ const styles = theme => ({
 const Shipper = ({ classes, shipper, onChange, role, isNew, clients }) => {
   const { address } = shipper;
   return (
-    <Grid className="shipper-form" container spacing={24}>
+    <Grid className="shipper-form" container spacing={3}>
       <Grid item xs={12} md={3} >
         <TextField
           label="First Name"

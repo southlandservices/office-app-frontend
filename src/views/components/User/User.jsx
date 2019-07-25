@@ -80,7 +80,7 @@ const User = ({
   onChangeNote,
   onPersistNote }) => {
   return (
-    <Grid className="user-form" container spacing={24}>
+    <Grid className="user-form" container spacing={3}>
       <Grid item xs={12} md={3} >
         <TextField
           label="First Name"
