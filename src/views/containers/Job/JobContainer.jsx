@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { jobOperations } from '../../../state/job';
 import { userOperations } from '../../../state/user';
 import { noteOperations } from '../../../state/note';
+import { clientOperations } from '../../../state/client';
 import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
 import View from '../../common/FormWrapper';
@@ -23,6 +24,7 @@ class Job extends CreateEditComponent {
     this.getItem();
     this.props.listNotes(this.props.id, 'job');
     this.props.listSouthlandReps();
+    this.props.listClients();
   }
 
   @boundMethod
@@ -64,11 +66,11 @@ class Job extends CreateEditComponent {
   @boundMethod
   handlePersistNote(id, data, isAdmin) {
     this.persistNote({
-      note: { id, isAdmin, note: data.note, userId: this.props.user.id },
+      note: { id, isAdmin, note: data.note, jobId: this.props.id, submitterId: this.props.user.id },
       addFn: this.props.addNote,
       updateFn: this.props.updateNote,
       isNew: !id,
-      typeSlug: 'user',
+      typeSlug: 'job',
       callback: () => {
         this.refreshNotes();
       }
@@ -120,14 +122,15 @@ Job.propTypes = {
   editRefresh: func.isRequired,
   id: string,
   job: object,
-  // userOptions: array,
   listSouthlandReps: any
 };
 
-const mapStateToProps = ({ jobState, userState, noteState }) => {
+const mapStateToProps = ({ jobState, userState, clientState, noteState }) => {
   return { 
     job: jobState.job,
+    user: userState.user,
     southlandRepOptions: userState.users,
+    clientOptions: clientState.clients,
     notes: noteState.notes,
     adminNotes: noteState.adminNotes,
   };
@@ -136,7 +139,8 @@ const mapStateToProps = ({ jobState, userState, noteState }) => {
 const { get, editRefresh, addJob, updateJob } = jobOperations;
 const { list: listSouthlandReps } = userOperations;
 const { listNotes, updateNote, addNote } = noteOperations;
+const { list: listClients } = clientOperations
 
-const mapDispatchToProps = { get, editRefresh, addJob, updateJob, listSouthlandReps, listNotes, updateNote, addNote };
+const mapDispatchToProps = { get, editRefresh, addJob, updateJob, listSouthlandReps, listClients, listNotes, updateNote, addNote };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Job);

@@ -68,7 +68,7 @@ class ClientContact extends CreateEditComponent {
       addFn: this.props.addNote,
       updateFn: this.props.updateNote,
       isNew: !id,
-      typeSlug: 'user',
+      typeSlug: 'clientContact',
       callback: () => {
         this.refreshNotes();
       }
