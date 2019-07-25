@@ -1,5 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
+import { format } from 'date-fns';
+import DateFnsUtils from "@date-io/moment";
+import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, TextField } from '@material-ui/core';
@@ -22,25 +25,53 @@ const styles = theme => ({
   },
 });
 
-const Job = ({ classes, job, onChange, role, isNew, userOptions }) => {
+const Job = ({ classes, job, onChange, role, isNew, southlandRepOptions }) => {
   const { southlandRep, client, shipperCustomer } = job;
   return (
-    <Grid className="job-form" container spacing={24}>
-      {/* {
-        (!job.id || (job.id && !_.isEmpty(southlandRep))) && 
-        <Grid item xs={12} md={3} >
-          <TextField
-            label="Southland Rep"
-            placeholder="Southland Rep"
-            field="firstName"
-            name="firstName"
-            value={job.southlandRep.firstName || ''}
-            onChange={onChange.bind(this, 'southlandRep.firstName')}
-            fullWidth={true} />
-        </Grid>
-      } */}
-      hi
-    </Grid>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Grid className="job-form" container spacing={24}>
+        {
+          !_.isEmpty(southlandRepOptions) &&
+          <Grid item xs={12} md={3} >
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="repId">Southland Rep</InputLabel>
+              <Select
+                value={job.repId || ''}
+                onChange={onChange.bind(this, 'repId')}
+                inputProps={{
+                  name: 'repId',
+                  id: 'southlandRep',
+                }}
+              >
+              {
+                southlandRepOptions.map(rep => <MenuItem key={rep.id} value={rep.id}>{rep.lastName}, {rep.firstName} ({rep.title})</MenuItem>)
+              }
+              </Select>
+            </FormControl>
+          </Grid>
+        }
+        <Grid item md={9}></Grid>
+        {
+          !_.isEmpty(job) &&
+          <Grid item xs={12} md={3}>
+            {/* <TextField
+              id="intakeDate"
+              label="Intake Date"
+              type="datetime-local"
+              name="intakeDate"
+              value={format(job.intakeDate, 'MM/DD/YYYY HH:mm:ss') || ''}
+              onChange={onChange.bind(this, 'intakeDate')} */}
+            {/* <KeyboardDateTimePicker
+              variant="inline"
+              label="Intake Date"
+              format="MM/DD/YYYY HH:mm:ss"
+              value={job.intakeDate} 
+              onChange={onChange.bind(this, 'intakeDate')} /> */}
+            />
+          </Grid>
+        }
+      </Grid>
+    </MuiPickersUtilsProvider>
   )
 }
 
@@ -51,7 +82,7 @@ Job.propTypes = {
   onChange: func,
   role: string.isRequired,
   isNew: bool.isRequired,
-  userOptions: array
+  southlandRepOptions: array
 };
 
 export default withStyles(styles)(Job);

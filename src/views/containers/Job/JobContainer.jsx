@@ -20,6 +20,7 @@ class Job extends CreateEditComponent {
 
   componentDidMount() {
     this.getItem();
+    this.props.listSouthlandReps();
   }
 
   @boundMethod
@@ -72,18 +73,20 @@ Job.propTypes = {
   editRefresh: func.isRequired,
   id: string,
   job: object,
-  userOptions: array
+  // userOptions: array,
+  listSouthlandReps: any
 };
 
 const mapStateToProps = ({ jobState, userState }) => {
   return { 
     job: jobState.job,
-    userOptions: userState.users
+    southlandRepOptions: userState.users
   };
 };
 
 const { get, editRefresh, addJob, updateJob } = jobOperations;
+const { list: listSouthlandReps } = userOperations;
 
-const mapDispatchToProps = { get, editRefresh, addJob, updateJob };
+const mapDispatchToProps = { get, editRefresh, addJob, updateJob, listSouthlandReps };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Job);
