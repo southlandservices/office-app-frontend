@@ -6,14 +6,17 @@ import DateFnsUtils from "@date-io/moment";
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, TextField, Button, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Grid, TextField, Button, Checkbox, FormControlLabel, Table, TableBody, Divider } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MUIDataTable from 'mui-datatables';
 import TableHeader from '../../common/TableHeader';
+import JobItemRow from '../../common/JobItemRow';
 import Dialog from '../Dialog';
+import JobItemTableHeader from '../../common/JobItemTableHeader';
+import JobItemForm from '../JobItemForm';
 
 const styles = theme => ({
   root: {
@@ -26,7 +29,25 @@ const styles = theme => ({
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
   },
+  subHeader: {
+    fontSize: 24,
+    fontWeight: 500
+  },
+  itemHeader: {
+    backgroundColor: '#3f51b5',
+    color: '#fff'
+  }
 });
+
+// const StyledTableCell = withStyles(theme => ({
+//   head: {
+//     backgroundColor: '#3f51b5',
+//     color: theme.palette.common.white,
+//   },
+//   body: {
+//     fontSize: 14,
+//   },
+// }))(TableCell);
 
 const noteColumns = [
   {
@@ -80,8 +101,15 @@ const Job = ({
   openNoteDialog,
   closeNoteDialog,
   onChangeNote,
-  onPersistNote }) => {
+  onPersistNote,
+  jobItem,
+  handleJobItemChange,
+  addJobItem }) => {
   const { southlandRep, client, shipperCustomer } = job;
+  if(!job.shipperCustomer && !job.address) {
+    job.address = {};
+    job.shipperCustomer = {};
+  }
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       {/* Internal Metadata */}
@@ -163,14 +191,13 @@ const Job = ({
           <React.Fragment>
 
             {/* Customer/Shipper Name & Address */}
-
             <Grid item xs={12} md={3} >
               <TextField
                 label="First Name"
                 placeholder="First Name"
                 field="firstName"
                 name="firstName"
-                value={job.shipperCustomer.firstName || ''}
+                value={ !_.isEmpty(job.shipperCustomer) ? job.shipperCustomer.firstName : ''}
                 onChange={onChange.bind(this, 'shipperCustomer.firstName')}
                 fullWidth={true} />
             </Grid>
@@ -180,7 +207,7 @@ const Job = ({
                 placeholder="Last Name"
                 field="lastName"
                 name="lastName"
-                value={job.shipperCustomer.lastName || ''}
+                value={!_.isEmpty(job.shipperCustomer) ? job.shipperCustomer.lastName : ''}
                 onChange={onChange.bind(this, 'shipperCustomer.lastName')}
                 fullWidth={true} />
             </Grid>
@@ -192,7 +219,7 @@ const Job = ({
                 placeholder="Address"
                 field="address1"
                 name="address1"
-                value={job.address.address1 || ''}
+                value={ !_.isEmpty(job.address) ? job.address.address1 : ''}
                 onChange={onChange.bind(this, 'address.address1')}
                 fullWidth={true} />
             </Grid>
@@ -202,7 +229,7 @@ const Job = ({
                 placeholder="Address"
                 field="address2"
                 name="address2"
-                value={job.address.address2 || ''}
+                value={!_.isEmpty(job.address) ? job.address.address2 : ''}
                 onChange={onChange.bind(this, 'address.address2')}
                 fullWidth={true} />
             </Grid>
@@ -212,7 +239,7 @@ const Job = ({
                 placeholder="City"
                 field="city"
                 name="city"
-                value={job.address.city || ''}
+                value={!_.isEmpty(job.address) ? job.address.city : ''}
                 onChange={onChange.bind(this, 'address.city')}
                 fullWidth={true} />
             </Grid>
@@ -222,7 +249,7 @@ const Job = ({
                 placeholder="State"
                 field="state"
                 name="state"
-                value={job.address.state || ''}
+                value={!_.isEmpty(job.address) ? job.address.state : ''}
                 onChange={onChange.bind(this, 'address.state')}
                 fullWidth={true} />
             </Grid>
@@ -232,7 +259,7 @@ const Job = ({
                 placeholder="Zip"
                 field="zip"
                 name="zip"
-                value={job.address.zip || ''}
+                value={!_.isEmpty(job.address) ? job.address.zip : ''}
                 onChange={onChange.bind(this, 'address.zip')}
                 fullWidth={true} />
             </Grid>
@@ -283,6 +310,21 @@ const Job = ({
 
           </React.Fragment>
         }
+
+        {/* Items */}
+        <TableHeader subHeader='Items' />
+        <JobItemForm 
+          jobItem={ jobItem } 
+          handleJobItemChange={ handleJobItemChange }
+          addJobItem={ addJobItem } />
+        <Grid item xs={12} md={12} >
+          <Table>
+            <JobItemTableHeader />
+            <TableBody>
+              <JobItemRow />
+            </TableBody>
+          </Table>
+        </Grid>
 
         {/* Notes */}
 
@@ -337,7 +379,10 @@ Job.propTypes = {
   openNoteDialog: func.isRequired,
   closeNoteDialog: func.isRequired,
   onChangeNote: func.isRequired,
-  onPersistNote: func.isRequired
+  onPersistNote: func.isRequired,
+  jobItem: object.isRequired,
+  handleJobItemChange: func.isRequired,
+  addJobItem: func.isRequired
 };
 
 export default withStyles(styles)(Job);

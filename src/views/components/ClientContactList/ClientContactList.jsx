@@ -46,7 +46,7 @@ const ClientContactList = ({ classes, clientContacts }) => {
   return (
     <Grid className="client-contact-list" container spacing={3}>
       <PageHeader pageOptions={pageOptions} pageTitle="Client Contacts" />
-      <MUIDataTable data={data(clientContacts)} columns={columns} />
+      <MUIDataTable data={data(clientContacts)} columns={columns} className={ classes.fullWidth } />
     </Grid>
   )
 }

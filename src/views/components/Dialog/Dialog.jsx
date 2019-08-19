@@ -5,7 +5,7 @@ import { withStyles, Dialog, DialogActions, DialogContent, DialogTitle, Button }
 const DialogModal = ({ classes, dialogOpen, closeDialog, children, dialogItem, dialogTitle, onPersistNote }) => {
   const { isNew, id, isAdmin } = dialogItem;
   return (
-    <Dialog open={dialogOpen} onClose={closeDialog} aria-labelledby="form-dialog-title">
+    <Dialog open={dialogOpen} onClose={closeDialog} aria-labelledby="form-dialog-title" fullWidth={ true }>
       <DialogTitle id="form-dialog-title">{ dialogTitle }</DialogTitle>
       <DialogContent>
         {/* <DialogContentText>

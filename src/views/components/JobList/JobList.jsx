@@ -32,12 +32,20 @@ import '../../../assets/styles/table.css';
 // });
 
 const columns = [
+  // {
+  //   label: 'Job',
+  //   name: 'jobLink',
+  //   options: {
+  //     customBodyRender: (value, tableMeta, updateValue) =>
+  //       (<Link to={`/jobs/${value.id}`} className='textLink'>{value.id}</Link>)
+  //   }
+  // },
   {
-    label: 'Job',
+    label: 'Details',
     name: 'jobLink',
     options: {
       customBodyRender: (value, tableMeta, updateValue) =>
-        (<Link to={`/jobs/${value.id}`} className='textLink'>{value.id}</Link>)
+        (<Link to={`/jobs/${value.id}`} className='textLink'>Visit Job</Link>)
     }
   },
   {

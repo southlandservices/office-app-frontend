@@ -47,6 +47,7 @@ class Job extends CreateEditComponent {
       updateFn: this.props.updateJob
     });
   }
+
   // note dialog
   @boundMethod
   openNoteDialog(data) {
@@ -77,6 +78,17 @@ class Job extends CreateEditComponent {
     });
   }
 
+  // items
+  @boundMethod
+  handleJobItemChange(name, event) {
+    this.setState({ jobItem: Object.assign(this.state.jobItem, { [name]: event.target.value } ) });
+  }
+
+  @boundMethod
+  addJobItem() {
+    debugger;
+  }
+  
   render() {
     const { isNew, redirectToList, isSaving, dialogOpen, dialogItem } = this.state;
     const { job, notes, adminNotes } = this.props;
@@ -104,6 +116,10 @@ class Job extends CreateEditComponent {
             closeNoteDialog={this.closeNoteDialog}
             onPersistNote={this.handlePersistNote} // add/update to the db
             onChangeNote={this.handleItemChange}  // local change to text field
+            // items
+            jobItem={this.state.jobItem}
+            handleJobItemChange={this.handleJobItemChange}
+            addJobItem={this.addJobItem}
             {...this.props}>
             <Form />
           </View>

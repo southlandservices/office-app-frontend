@@ -11,9 +11,11 @@ const TableHeader = ({ classes, subHeader, buttonText, buttonClick }) => {
       <div className={classes.tableHeaderLeft}>
         <span className={classes.subHeader}>{ subHeader }</span>
       </div>
-      <div className={classes.tableHeaderRight}>
-        <Button variant='contained' color='primary' onClick={ () => buttonClick({ isNew: true }) }><Add />{ buttonText }</Button>
-      </div>
+      { buttonText && buttonClick && 
+        <div className={classes.tableHeaderRight}>
+          <Button variant='contained' color='primary' onClick={ () => buttonClick({ isNew: true }) }><Add />{ buttonText }</Button>
+        </div>
+      }
     </Grid>
   )
 }
@@ -22,8 +24,8 @@ const { object, string, func } = PropTypes;
 TableHeader.propTypes = {
   classes: object.isRequired,
   subHeader: string.isRequired,
-  buttonText: string.isRequired,
-  buttonClick: func.isRequired
+  buttonText: string,
+  buttonClick: func
 }
 
 export default withStyles(styles)(TableHeader);

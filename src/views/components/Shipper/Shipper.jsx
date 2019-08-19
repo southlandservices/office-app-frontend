@@ -22,7 +22,21 @@ const styles = theme => ({
   },
 });
 
-const Shipper = ({ classes, shipper, onChange, role, isNew, clients }) => {
+const Shipper = ({
+  classes,
+  shipper,
+  onChange,
+  role,
+  isNew,
+  clients,
+  notes,
+  adminNotes,
+  dialogOpen,
+  dialogItem,
+  openNoteDialog,
+  closeNoteDialog,
+  onChangeNote,
+  onPersistNote }) => {
   const { address } = shipper;
   return (
     <Grid className="shipper-form" container spacing={3}>
@@ -224,7 +238,15 @@ Shipper.propTypes = {
   onChange: func,
   role: string.isRequired,
   isNew: bool.isRequired,
-  clients: array.isRequired
+  clients: array.isRequired,
+  notes: array,
+  adminNotes: array,
+  dialogOpen: bool.isRequired,
+  dialogItem: object,
+  openNoteDialog: func.isRequired,
+  closeNoteDialog: func.isRequired,
+  onChangeNote: func.isRequired,
+  onPersistNote: func.isRequired
 };
 
 export default withStyles(styles)(Shipper);

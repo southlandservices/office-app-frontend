@@ -35,7 +35,8 @@ class CreateEditComponent extends Component {
       isNew: !this.props[this.idField] || this.props[this.idField] === "create",
       redirectToList: false,
       dialogOpen: false,
-      dialogItem: {}
+      dialogItem: {},
+      jobItem: {}
     });
   }
 
