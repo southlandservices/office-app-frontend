@@ -139,6 +139,14 @@ class CreateEditComponent extends Component {
       this.update(updateFn, note.id, note, callback, typeSlug);
     }
   }
+
+  persistJobItem({ jobItem, addFn, updateFn, isNew, callback }) {
+    if(isNew) {
+      this.add(addFn, jobItem, callback);
+    } else {
+      this.update(updateFn, jobItem.id, jobItem, callback);
+    }
+  }
 }
 
 const { func } = PropTypes;

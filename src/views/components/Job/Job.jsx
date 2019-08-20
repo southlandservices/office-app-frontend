@@ -103,8 +103,9 @@ const Job = ({
   onChangeNote,
   onPersistNote,
   jobItem,
+  jobItems,
   handleJobItemChange,
-  addJobItem }) => {
+  onPersistJobItem }) => {
   const { southlandRep, client, shipperCustomer } = job;
   if(!job.shipperCustomer && !job.address) {
     job.address = {};
@@ -316,12 +317,14 @@ const Job = ({
         <JobItemForm 
           jobItem={ jobItem } 
           handleJobItemChange={ handleJobItemChange }
-          addJobItem={ addJobItem } />
+          onPersistJobItem={onPersistJobItem } />
         <Grid item xs={12} md={12} >
           <Table>
             <JobItemTableHeader />
             <TableBody>
-              <JobItemRow />
+              {
+                jobItems.map(item => <JobItemRow jobItem={ item } />)
+              }
             </TableBody>
           </Table>
         </Grid>
@@ -381,8 +384,9 @@ Job.propTypes = {
   onChangeNote: func.isRequired,
   onPersistNote: func.isRequired,
   jobItem: object.isRequired,
+  jobItems: array,
   handleJobItemChange: func.isRequired,
-  addJobItem: func.isRequired
+  onPersistJobItem: func.isRequired
 };
 
 export default withStyles(styles)(Job);

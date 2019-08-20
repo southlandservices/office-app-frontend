@@ -9,7 +9,7 @@ const styles = {
   }
 };
 
-const JobItemForm = ({ classes, jobItem, handleJobItemChange, addJobItem }) => {
+const JobItemForm = ({ classes, jobItem, handleJobItemChange, onPersistJobItem }) => {
   return (
     <React.Fragment>
       <Grid item container xs={12} md={12} spacing={2} >
@@ -120,7 +120,7 @@ const JobItemForm = ({ classes, jobItem, handleJobItemChange, addJobItem }) => {
       </Grid>
       <Grid item xs={12} md={12}>
         <div className={classes.buttonRight}>
-          <Button variant='contained' color='primary' onClick={() => addJobItem()}><Add />Add Item</Button>
+          <Button variant='contained' color='primary' onClick={() => onPersistJobItem()}><Add />Add Item</Button>
         </div>
       </Grid>
     </React.Fragment>
@@ -132,7 +132,7 @@ JobItemForm.PropTypes = {
   classes: object.isRequired,
   jobItem: object.isRequired,
   handleJobItemChange: func.isRequired,
-  addJobItem: func.isRequired
+  onPersistJobItem: func.isRequired
 }
 
 export default withStyles(styles)(JobItemForm);

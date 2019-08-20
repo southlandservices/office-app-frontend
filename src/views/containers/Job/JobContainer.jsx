@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { jobOperations } from '../../../state/job';
 import { userOperations } from '../../../state/user';
 import { noteOperations } from '../../../state/note';
+import { jobItemOperations } from '../../../state/jobItem';
 import { clientOperations } from '../../../state/client';
 import CreateEditComponent from '../../common/CreateEditComponent';
 import PageHeader from '../../common/PageHeader';
@@ -25,6 +26,7 @@ class Job extends CreateEditComponent {
     this.props.listNotes(this.props.id, 'job');
     this.props.listSouthlandReps();
     this.props.listClients();
+    this.props.listJobItems(this.props.id);
   }
 
   @boundMethod
@@ -85,13 +87,27 @@ class Job extends CreateEditComponent {
   }
 
   @boundMethod
-  addJobItem() {
+  handlePersistJobItem(id) {
     debugger;
+    // this.props.addJobItem(this.state.jobItem)
+    this.persistJobItem({
+      jobItem: { jobId: this.props.id, ...this.state.jobItem },
+      addFn: this.props.addJobItem,
+      updateFn: this.props.updateJobItem,
+      isNew: !id,
+      callback: () => {
+        this.refreshJobItems();
+      }
+    });
+  }
+
+  refreshJobItems() {
+    this.props.listJobItems(this.props.id);
   }
   
   render() {
     const { isNew, redirectToList, isSaving, dialogOpen, dialogItem } = this.state;
-    const { job, notes, adminNotes } = this.props;
+    const { job, notes, adminNotes, jobItems } = this.props;
     const decoded = decodeToken(localStorage.getItem('token'));
     const { role } = decoded;
     return (
@@ -117,9 +133,10 @@ class Job extends CreateEditComponent {
             onPersistNote={this.handlePersistNote} // add/update to the db
             onChangeNote={this.handleItemChange}  // local change to text field
             // items
+            jobItems={ jobItems }
             jobItem={this.state.jobItem}
             handleJobItemChange={this.handleJobItemChange}
-            addJobItem={this.addJobItem}
+            onPersistJobItem={this.handlePersistJobItem}
             {...this.props}>
             <Form />
           </View>
@@ -141,7 +158,7 @@ Job.propTypes = {
   listSouthlandReps: any
 };
 
-const mapStateToProps = ({ jobState, userState, clientState, noteState }) => {
+const mapStateToProps = ({ jobState, userState, clientState, noteState, jobItemState }) => {
   return { 
     job: jobState.job,
     user: userState.user,
@@ -149,14 +166,29 @@ const mapStateToProps = ({ jobState, userState, clientState, noteState }) => {
     clientOptions: clientState.clients,
     notes: noteState.notes,
     adminNotes: noteState.adminNotes,
+    jobItems: jobItemState.jobItems
   };
 };
 
 const { get, editRefresh, addJob, updateJob } = jobOperations;
 const { list: listSouthlandReps } = userOperations;
 const { listNotes, updateNote, addNote } = noteOperations;
-const { list: listClients } = clientOperations
+const { listJobItems, addJobItem, updateJobItem } = jobItemOperations;
+const { list: listClients } = clientOperations;
 
-const mapDispatchToProps = { get, editRefresh, addJob, updateJob, listSouthlandReps, listClients, listNotes, updateNote, addNote };
+const mapDispatchToProps = {
+  get, 
+  editRefresh,
+  addJob,
+  updateJob,
+  listSouthlandReps,
+  listClients,
+  listNotes,
+  updateNote,
+  addNote,
+  listJobItems,
+  addJobItem,
+  updateJobItem
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Job);

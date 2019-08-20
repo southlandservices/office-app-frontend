@@ -1,25 +1,37 @@
 import React from 'react';
-import { TableCell, TableRow } from '@material-ui/core';
+import PropTypes from 'prop-types';
+import { TableCell, TableRow, withStyles } from '@material-ui/core';
 
-const JobItemRow = (row) => {
+const styles = {
+  rowBottom: {
+    borderBottom: '2px solid #000'
+  }
+}
+
+const JobItemRow = ({ classes, jobItem }) => {
   return (
-    <React.Fragment>
+    <React.Fragment key={jobItem.id}>
       <TableRow>
-        <TableCell>1234</TableCell>
-        <TableCell>2</TableCell>
-        <TableCell>abc123</TableCell>
-        <TableCell>zyx987</TableCell>
-        <TableCell>here</TableCell>
-        <TableCell>$100</TableCell>
-        <TableCell>$60</TableCell>
-        <TableCell>$60</TableCell>
-        <TableCell>description</TableCell>
+        <TableCell>{ jobItem.inventoryNumber }</TableCell>
+        <TableCell>{jobItem.quantity }</TableCell>
+        <TableCell>{jobItem.itemCode }</TableCell>
+        <TableCell>{jobItem.lossCode }</TableCell>
+        <TableCell>{jobItem.purchaseLocation }</TableCell>
+        <TableCell>${jobItem.purchaseCost }</TableCell>
+        <TableCell>${jobItem.replacementCost }</TableCell>
+        <TableCell>${jobItem.claimAmount }</TableCell>
+        <TableCell>{jobItem.additionalDescription }</TableCell>
       </TableRow>
-      <TableRow>
-        <TableCell colSpan={9}>Comments: This is the description for item abc123.  It should span the whole row.</TableCell>
-      </TableRow>
+      <TableRow className={ classes.rowBottom }>
+        <TableCell colSpan={9}>{jobItem.comments }</TableCell>
+      </TableRow >
     </React.Fragment>
   )
 }
 
-export default JobItemRow;
+const { object } = PropTypes;
+JobItemRow.PropTypes = {
+  jobItem: object.isRequired
+}
+
+export default withStyles(styles)(JobItemRow);
