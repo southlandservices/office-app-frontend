@@ -12,6 +12,14 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import UserList from './containers/UserList';
 import User from './containers/User';
+import ClientList from './containers/ClientList';
+import Client from './containers/Client';
+import ClientContactList from './containers/ClientContactList';
+import ClientContact from './containers/ClientContact';
+import JobList from './containers/JobList';
+import Job from './containers/Job';
+import ShipperList from './containers/ShipperList';
+import Shipper from './containers/Shipper';
 import Menu from './containers/Menu/MenuContainer';
 import { authenticationActions, authenticationOperations } from '../state/auth';
 import { decodeToken } from '../utils/misc';
@@ -94,6 +102,14 @@ class App extends Component {
               <Route exact={true} path="/dashboard" render={() => <Dashboard />} />
               <Route exact={true} path="/users" render={() => <UserList />} />
               <Route path="/users/:userId" render={({match}) => <User id={match.params.userId} /> } />
+              <Route exact={true} path="/clients" render={() => <ClientList />} />
+              <Route path="/clients/:clientId" render={({match}) => <Client id={ match.params.clientId } />} />
+              <Route exact={true} path="/clientContacts" render={() => <ClientContactList />} />
+              <Route path="/clientContacts/:clientContactId" render={({match}) => <ClientContact id={ match.params.clientContactId } />} />
+              <Route exact={true} path="/jobs" render={() => <JobList />} />
+              <Route path="/jobs/:jobId" render={({match}) => <Job id={ match.params.jobId } />} />
+              <Route exact={true} path="/shippers" render={() => <ShipperList />} />
+              <Route path="/shippers/:shipperId" render={({match}) => <Shipper id={ match.params.shipperId } />} />
             </Switch>
           </div>
         </div>

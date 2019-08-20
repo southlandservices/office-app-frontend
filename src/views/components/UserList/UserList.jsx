@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import styles from './UserListStyles';
 import { Link } from 'react-router-dom';
 import { Add } from '@material-ui/icons';
+import { Grid } from '@material-ui/core';
 import MUIDataTable from 'mui-datatables';
 import ButtonLink from '../../common/ButtonLink';
 import PageHeader from '../../common/PageHeader';
@@ -25,7 +26,7 @@ const columns = [
   { label: 'Phone', name: 'phone1' },
   { label: 'Phone (alt)', name: 'phone2' },
   { label: 'Email', name: 'email' },
-  { label: 'Role', name: 'userRole.name'}
+  { label: 'Role', name: 'Role.name'}
 ];
 
 const data = (users) => {
@@ -42,10 +43,10 @@ const pageOptions = () => <ButtonLink location = "/users/create" text = "Add New
 
 const UserList = ({ classes, users, tableOptions }) => {
   return (
-    <div>
+    <Grid className="user-list" container spacing={3}>
       <PageHeader pageOptions={ pageOptions } pageTitle="Users" />
-      <MUIDataTable data={ data(users) } columns={ columns } />
-    </div>
+      <MUIDataTable data={data(users)} columns={columns} className={classes.fullWidth} />
+    </Grid>
   )
 }
 

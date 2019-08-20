@@ -6,7 +6,7 @@ const styles = {
     fontFamily: 'inherit',
     width: '100%',
     height: '10vh',
-    position: 'fixed',
+    // position: 'fixed',
     bottom: 0,
     marginBottom: '-10px',
     backgroundColor: '#F9FAFB',
