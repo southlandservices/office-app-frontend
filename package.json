@@ -57,7 +57,7 @@
     "classnames": "^2.2.6",
     "emotion": "^7.3.2",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "mui-datatables": "^2.0.0",
     "offline-plugin": "^4.8.3",
     "prop-types": "^15.7.2",
