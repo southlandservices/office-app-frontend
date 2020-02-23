@@ -1,11 +1,11 @@
 console.log('PROCESS.ENV', process.env);
 
 const local = {
-  API_PREFIX: 'http://localhost:3030/api/v1/'
+  API_PREFIX: 'http://localhost:3030/api/'
 };
 
-const dev = {
-  API_PREFIX: 'https://qrk5c44b40.execute-api.us-east-1.amazonaws.com/dev/api/'
+const development = {
+  API_PREFIX: 'https://ec2-18-219-85-149.us-east-2.compute.amazonaws.com/api/'
 };
 
 const uat = {
@@ -18,7 +18,7 @@ const prod = {
 
 const endpoints = {
   local,
-  dev,
+  development,
   uat,
   prod
 };
