@@ -1,7 +1,8 @@
 const buttonLink = (theme) => {
   const buttonLinkStyle = Object.assign({}, {
     textDecoration: 'none',
-    fontWeight: 500
+    fontWeight: 500,
+    cursor: 'pointer'
   });
   return buttonLinkStyle;
 }

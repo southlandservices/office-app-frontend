@@ -26,8 +26,6 @@ export const users = (state = [], action) => {
       return action.payload.data;
     case types.ADD_USER:
       return action.payload;
-    case types.TOGGLE_SPONSOR:
-      return state.map(t => user(t, action));
     default:
       return state;
   }

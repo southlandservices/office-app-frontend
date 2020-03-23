@@ -13,7 +13,7 @@ const Menu = ({ classes, authenticated, checkFn }) => {
     return (
       <div className={classes.wrapper}>
         <div className={classes.menuBar}>
-          <Grid container spacing={24}>
+          <Grid container spacing={3}>
             <NavLink exact to="/dashboard" activeClassName={classes.activeLink} className={classes.buttonLink}>
               <Button className={classes.buttonLink}>Dashboard</Button>
             </NavLink>
@@ -21,6 +21,30 @@ const Menu = ({ classes, authenticated, checkFn }) => {
               checkFn('users') && 
               <NavLink to="/users" activeClassName={classes.activeLink} className={classes.buttonLink}>
                 <Button className={classes.buttonLink}>Users</Button>
+              </NavLink>
+            }
+            {
+              checkFn('clients') &&
+              <NavLink to="/clients" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Clients</Button>
+              </NavLink>
+            }
+            {
+              checkFn('clientContacts') &&
+              <NavLink to="/clientContacts" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Client Contacts</Button>
+              </NavLink>
+            }
+            {
+              checkFn('jobs') &&
+              <NavLink to="/jobs" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Jobs</Button>
+              </NavLink>
+            }
+            {
+              checkFn('shippers') &&
+              <NavLink to="/shippers" activeClassName={classes.activeLink} className={classes.buttonLink}>
+                <Button className={classes.buttonLink}>Shippers</Button>
               </NavLink>
             }
           </Grid>

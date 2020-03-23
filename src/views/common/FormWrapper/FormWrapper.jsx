@@ -16,9 +16,9 @@ const FormWrapper = (props) => {
 
   return (
     <div className={ classes.formContainer } {...otherProps}>
-      <Grid name={name} container spacing={24} role="form">
+      <Grid name={name} container spacing={3} role="form">
         {renderChildren(props)}
-        <Grid container spacing={24}>
+        <Grid container spacing={3}>
           <Grid item md={12} />
           <Grid item md={1}>
             <Button

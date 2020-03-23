@@ -26,20 +26,3 @@ PageHeader.propTypes = {
 };
 
 export default withStyles(styles)(PageHeader);
-
-
-// const PageHeader = ({ classes, title, children }) => {
-//   return (
-//     <div>
-//       <h2>{ title }</h2>
-//     </div>
-//   )
-// }
-
-// const { object, string } = PropTypes;
-// PageHeader.propTypes = {
-//   classes: object.isRequired,
-//   title: string
-// }
-
-// export default withStyles(styles)(PageHeader);

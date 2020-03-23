@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
-import uuidv1 from 'uuid/v1';
+import uuidv4 from 'uuid/v4';
 
 import { setFieldValue } from '../../../utils/misc';
 
@@ -18,11 +18,11 @@ class CreateEditComponent extends Component {
   getItem() {
     const { id } = this.state;
 
-    if (id) {
+    if (id && id !== 'create') {
       return this.props.get(id);
     }
 
-    this.props.editRefresh({ [this.idField]: uuidv1() });
+    this.props.editRefresh({ [this.idField]: uuidv4() });
 
     return Promise.resolve();
   }
@@ -33,7 +33,10 @@ class CreateEditComponent extends Component {
       id: this.props[this.idField] || undefined,
       isSaving: false,
       isNew: !this.props[this.idField] || this.props[this.idField] === "create",
-      redirectToList: false
+      redirectToList: false,
+      dialogOpen: false,
+      dialogItem: {},
+      jobItem: {}
     });
   }
 
@@ -53,8 +56,17 @@ class CreateEditComponent extends Component {
   }
 
   updateState(error = false, isNew = false) {
-    const newState = Object.assign({}, { isSaving: false }, { error }, { redirectToList: isNew });
+    // const newState = Object.assign({}, { isSaving: false }, { error }, { redirectToList: isNew });
+    const newState = Object.assign({}, { isSaving: false }, { error });
     this.setState(newState);
+  }
+
+  openDialog(dialogItem) {
+    this.setState({ dialogOpen: true, dialogItem });
+  }
+
+  closeDialog() {
+    this.setState({ dialogOpen: false, dialogItem: {} });
   }
 
   persist({ item, addFn, updateFn }) {
@@ -63,25 +75,42 @@ class CreateEditComponent extends Component {
 
     this.setState({ isSaving: true });
 
-    // these add/update functions can probably be abstracted out to the CreateEditComponent as props
     if (isNew) {
-      addFn(item)
-        .then(() => this.notify({ message: `Add successful`, type: 'success' }))
-        .then(() => this.updateState(false, true))
-        .catch(() => {
-          this.notify({ message: `Add error`, type: 'error', autoClose: false });
-          this.updateState(true, true);
-        });
+      this.add(addFn, item);
     } else {
-      // TODO: show a notification
-      updateFn(id, item)
-        .then(() => this.notify({ message: `Save successful`, type: 'success' }))
-        .then(() => this.updateState())
-        .catch(() => {
-          this.notify({ message: `Save error`, type: 'error', autoClose: false });
-          this.updateState(true);
-        });
+      this.update(updateFn, id, item);
     }
+  }
+
+  add(addFn, item, callback, typeSlug) {
+    addFn(item, typeSlug)
+      .then(() => this.notify({ message: `Add successful`, type: 'success' }))
+      .then(() => this.updateState(false, true))
+      .then(() => {
+        if (callback) {
+          callback();
+        }
+      })
+      .catch(() => {
+        this.notify({ message: `Add error`, type: 'error', autoClose: false });
+        this.updateState(true, true);
+      });
+  }
+
+  update(updateFn, id, item, callback, typeSlug) {
+    updateFn(id, item, typeSlug)
+      .then(() => this.notify({ message: `Save successful`, type: 'success' }))
+      .then(() => this.updateState())
+      .then(() => {
+        if(callback) {
+          callback();
+        }
+      })
+      .catch(e=> {
+        console.log('error', e);
+        this.notify({ message: `Save error`, type: 'error', autoClose: false });
+        this.updateState(true);
+      });
   }
 
   notify({ message = 'Message here', type = 'info', autoClose = true }) {
@@ -100,6 +129,22 @@ class CreateEditComponent extends Component {
       default:
         toast.info(message, toastOpts);
         break;
+    }
+  }
+
+  persistNote({ note, addFn, updateFn, isNew, typeSlug, callback }) {
+    if(isNew) {
+      this.add(addFn, note, callback, typeSlug);
+    } else {
+      this.update(updateFn, note.id, note, callback, typeSlug);
+    }
+  }
+
+  persistJobItem({ jobItem, addFn, updateFn, isNew, callback }) {
+    if(isNew) {
+      this.add(addFn, jobItem, callback);
+    } else {
+      this.update(updateFn, jobItem.id, jobItem, callback);
     }
   }
 }

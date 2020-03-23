@@ -9,7 +9,7 @@ const Header = ({ classes, isAuthenticated, logOut }) => {
   return (
     <AppBar position='static' classes={{ colorPrimary: classes.colorPrimary }}>
       <Toolbar>
-        <Typography variant="title" color="inherit" className={classes.iconContainer}>
+        <Typography variant="h2" color="inherit" className={classes.iconContainer}>
           <Link to={'/dashboard'} className={ classes.imgLink }>
             <img src='../../../assets/images/logo.png' className={ classes.logo } />
           </Link>

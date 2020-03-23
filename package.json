@@ -4,10 +4,7 @@
   "description": "Get started with ES2015, React and Redux. Including Webpack, ESLint, react-router, fetch ...",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js",
-    "build": "rm -rf /opt/front-end/dist && webpack --config /opt/front-end/webpack/webpack.config.prod.js && cp -a /opt/front-end/src/assets/ /opt/front-end/dist/",
-    "clean": "rm -rf /opt/front-end/dist",
-    "wp": "webpack --config /opt/front-end/webpack/webpack.config.prod.js",
-    "assets": "cp -a /opt/front-end/src/assets/ /opt/front-end/dist/",
+    "build": "rm -rf dist && webpack --config webpack/webpack.config.prod.js  && cp -a assets/ dist/",
     "build:local": "rm -rf dist && webpack --config webpack/webpack.config.prod.js  && cp -a src/assets/ dist/",
     "prod": "serve ./dist -s",
     "lint": "eslint src",
@@ -17,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/didierfranc/redux-react-starter.git"
+    "url": "git+https://github.com/southlandservices/office-app-frontend.git"
   },
   "keywords": [
     "react",
@@ -55,13 +52,18 @@
     "webpack-dev-server": "^2.5.1"
   },
   "dependencies": {
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
+    "@date-io/moment": "^1.3.8",
+    "@material-ui/core": "^4.2.1",
+    "@material-ui/icons": "^4.2.1",
+    "@material-ui/pickers": "^3.2.0",
+    "@material-ui/styles": "^4.2.1",
     "autobind-decorator": "^2.4.0",
     "classnames": "^2.2.6",
+    "date-fns": "^1.30.1",
     "emotion": "^7.3.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
+    "moment": "^2.24.0",
     "mui-datatables": "^2.0.0",
     "offline-plugin": "^4.8.3",
     "prop-types": "^15.7.2",
@@ -74,6 +76,7 @@
     "react-toastify": "^5.1.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
+    "typeface-roboto": "0.0.54",
     "uuid": "^3.3.2"
   }
 }
