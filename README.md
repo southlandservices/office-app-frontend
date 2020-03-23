@@ -36,32 +36,7 @@ yarn build
 yarn prod
 ```
 
-### Deploy
-
-#### [Surge.sh](http://surge.sh)
+### Building locally for AWS (must be in bash, WSL _does not_ work!)
 ```
-surge ./dist -d subdomain.surge.sh
+yarn build:local
 ```
-
-#### [Github Pages](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/)
-```
-mv dist docs
-git push upstream master
-```
-
-Then go to your repository, Settings -> Options -> Github Pages and select /docs folder
-
-## What's inside ?
-
-👉 [package.json](https://github.com/didierfranc/redux-react-starter/blob/master/package.json)
-
-## Tools
-
-If you have not already done so, move to **Chrome** and install [react-developer-tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi) & [redux-devtools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
-
-## Create-React-App
-
-If you don't care about the process or you don't want to play with your config try [create-react-app](https://github.com/facebookincubator/create-react-app)
-
-<img src="https://raw.githubusercontent.com/didierfranc/donate/master/qr.png" width="100" height="100">
-
