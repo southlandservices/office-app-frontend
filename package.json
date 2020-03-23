@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/didierfranc/redux-react-starter.git"
+    "url": "git+https://github.com/southlandservices/office-app-frontend.git"
   },
   "keywords": [
     "react",
