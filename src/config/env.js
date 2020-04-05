@@ -16,11 +16,16 @@ const prod = {
   API_PREFIX: "https://ec2-18-219-85-149.us-east-2.compute.amazonaws.com/api/"
 };
 
+const production = {
+  API_PREFIX: "https://ec2-18-219-85-149.us-east-2.compute.amazonaws.com/api/"
+};
+
 const endpoints = {
   local,
   development,
   uat,
-  prod
+  prod,
+  production
 };
 
 export default endpoints;
