@@ -41,7 +41,7 @@ yarn prod
 yarn build:local
 ```
 
-### Pushing to GitHub (must be in SWL, bash _does not_ work [for me])
+### Pushing to GitHub (must be in WSL, bash _does not_ work [for me])
 ```
 southlandservices:F.......3
 ```
