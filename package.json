@@ -63,7 +63,7 @@
     "emotion": "^7.3.2",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mui-datatables": "^2.0.0",
     "offline-plugin": "^4.8.3",
     "prop-types": "^15.7.2",
